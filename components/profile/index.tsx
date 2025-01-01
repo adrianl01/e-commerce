@@ -1,14 +1,26 @@
+import { updateAddress, updateUser } from "@/lib/api";
 import Form from "next/form";
+import { userData } from "@/lib/api";
 export function Profile() {
   const formHandler = (e: any) => {
     e.preventDefault();
-    const name = e.target.name.value;
+    const firstName = e.target.firstName.value;
+    const lastName = e.target.lastName.value;
     const address = e.target.address.value;
-    const tel = e.target.tel.value;
-    console.log(name, address, tel);
+    const userAge = e.target.userAge.value;
+    const phoneNumber = e.target.tel.value;
+    const additionalUserData = {
+      firstName,
+      lastName,
+      userAge,
+      phoneNumber,
+    };
+    console.log(firstName, lastName, address, phoneNumber);
+    updateUser(additionalUserData as userData);
+    updateAddress(address);
   };
   return (
-    <div className="bg-white px-5 py-4 h-[577px]">
+    <div className="bg-white px-5 py-4 h-[797px]">
       <div className="font-bold text-4xl py-3">Perfil</div>
       <Form
         className="flex flex-col h-full gap-8 text-2xl"
@@ -16,13 +28,33 @@ export function Profile() {
         action={""}
       >
         <fieldset className=" px-0 py-0 mx-0">
-          <label className="text-2xl" htmlFor="name">
-            Nombre Completo
+          <label className="text-2xl" htmlFor="firstName">
+            Nombre/s
           </label>
           <input
             className="h-16 w-full border-solid border-black border-4 rounded-lg"
             type="text"
-            name="name"
+            name="firstName"
+          />
+        </fieldset>
+        <fieldset className=" px-0 py-0 mx-0">
+          <label className="text-2xl" htmlFor="lastName">
+            Apellido/s
+          </label>
+          <input
+            className="h-16 w-full border-solid border-black border-4 rounded-lg"
+            type="text"
+            name="lastName"
+          />
+        </fieldset>
+        <fieldset className=" px-0 py-0 mx-0">
+          <label className="text-2xl" htmlFor="userAge">
+            Edad
+          </label>
+          <input
+            className="h-16 w-full border-solid border-black border-4 rounded-lg"
+            type="number"
+            name="userAge"
           />
         </fieldset>
         <fieldset className=" px-0 py-0 mx-0">

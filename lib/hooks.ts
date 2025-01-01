@@ -40,3 +40,13 @@ export function useProduct(productId: string) {
     const res = data ? data : null;
     return res;
 }
+export function useEmail() {
+    const { data, error } = useSWR("email",
+        () => {
+            return localStorage.getItem("email")
+        }
+    );
+    const res = data ? data : null;
+    return res;
+}
+

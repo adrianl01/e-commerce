@@ -8,6 +8,7 @@ import {
   SignUpFormLabel,
 } from "./style";
 import Form from "next/form";
+import { getToken, validateEmail } from "@/lib/api";
 
 export function HomeForm() {
   const router = useRouter();
@@ -49,8 +50,8 @@ export function SignUpForm() {
   const SignUpHandler = (e: any) => {
     e.preventDefault();
     const email = e.target.email.value;
-    console.log(email);
-    // localStorage.setItem("email", email);
+    const res = validateEmail(email);
+    res.then((r) => console.log(r));
   };
   return (
     <Form className="signUpFormDiv" action="" onSubmit={SignUpHandler}>
@@ -62,8 +63,9 @@ export function SignUpForm() {
 }
 export function SignUpCodeForm() {
   const SignUpCodeHandler = (e: any) => {
-    const email = e.target.code.value;
-    console.log(email);
+    const code = e.target.code.value;
+    const res = getToken(code);
+    res.then((r) => console.log(r));
   };
   return (
     <Form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>

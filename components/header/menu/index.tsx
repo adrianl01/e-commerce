@@ -3,12 +3,21 @@ import { MenuDiv, MenuLogInButton } from "./style";
 import { CloseLogo } from "@/imgs";
 import Link from "next/link";
 
+import { useEmail } from "@/lib/hooks";
+import { logout } from "@/lib";
+
 export function Menu() {
   const closeMenuHandler = (e: any) => {
     e.preventDefault();
     const menu = document.getElementById("menu");
     menu!.style.display = "none";
   };
+  const email = useEmail();
+
+  console.log("emailMenu:", email);
+  function ShowEmail(props: any) {
+    return <div>{props.emailProp}</div>;
+  }
 
   return (
     <MenuDiv>
@@ -24,8 +33,15 @@ export function Menu() {
           <MenuButton>Buscar</MenuButton>
         </Link>
       </div>
-      test@gmail.com
-      <MenuLogInButton>Cerrar Sesión</MenuLogInButton>
+      <ShowEmail emailProp={email} />
+      <MenuLogInButton
+        onClick={() => {
+          console.log("logOut");
+          logout();
+        }}
+      >
+        Cerrar Sesión
+      </MenuLogInButton>
     </MenuDiv>
   );
 }
