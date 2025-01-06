@@ -1,5 +1,4 @@
 import { getProductbyId } from "@/lib";
-import { useProduct } from "@/lib/hooks";
 import { Body } from "@/ui/typography/inter";
 import { useState } from "react";
 

@@ -1,6 +1,4 @@
 import { CloseMenuButton, MenuButton } from "@/ui/buttons";
-import { MenuDiv, MenuLogInButton } from "./style";
-import { CloseLogo } from "@/imgs";
 import Link from "next/link";
 
 import { useEmail } from "@/lib/hooks";
@@ -16,12 +14,14 @@ export function Menu() {
 
   console.log("emailMenu:", email);
   function ShowEmail(props: any) {
-    return <div>{props.emailProp}</div>;
+    return <div className="text-[23px]">{props.emailProp}</div>;
   }
 
   return (
-    <MenuDiv>
-      <CloseMenuButton handler={closeMenuHandler} />
+    <div className="bg-black flex flex-col justify-between text-[42px] text-center text-white p-[15px] h-[100%] w-[100%] m-0">
+      <div className="flex justify-end">
+        <CloseMenuButton handler={closeMenuHandler} />
+      </div>
       <div className="MenuButtonBox">
         <Link href={"/signin"}>
           <MenuButton>Ingresar</MenuButton>
@@ -34,14 +34,20 @@ export function Menu() {
         </Link>
       </div>
       <ShowEmail emailProp={email} />
-      <MenuLogInButton
-        onClick={() => {
-          console.log("logOut");
-          logout();
-        }}
-      >
-        Cerrar Sesión
-      </MenuLogInButton>
-    </MenuDiv>
+
+      {email ? (
+        <button
+          className="bg-black border-none text-[20px] font-normal text-center text-red-600"
+          onClick={() => {
+            console.log("logOut");
+            logout();
+          }}
+        >
+          Cerrar Sesión
+        </button>
+      ) : (
+        <div></div>
+      )}
+    </div>
   );
 }

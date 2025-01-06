@@ -16,4 +16,6 @@
 .MenuButtonBox {
     display: flex;
     flex-direction: column;
+    gap: 78px;
+    font-family: "Inter";
 }

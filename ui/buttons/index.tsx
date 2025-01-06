@@ -28,7 +28,9 @@ const BaseFooterButton = styled.button`
 `;
 export function FooterButton(prop: any) {
   return (
-    <BaseFooterButton onClick={prop.handler}>{prop.children}</BaseFooterButton>
+    <BaseFooterButton className="flex gap-1" onClick={prop.handler}>
+      {prop.children}
+    </BaseFooterButton>
   );
 }
 
@@ -46,21 +48,22 @@ const BaseMenuButton = styled.button`
 
 export function MenuButton(prop: any) {
   return (
-    <BaseMenuButton onClick={prop.handler}>{prop.children}</BaseMenuButton>
+    <button
+      className="font-[Inter] font-bold text-center border-none pb-14"
+      onClick={prop.handler}
+    >
+      {prop.children}
+    </button>
   );
 }
 
-const CloseButton = styled(BaseMenuButton)`
-  display: flex;
-  align-items: center;
-  justify-content: end;
-`;
-
 export function CloseMenuButton(prop: any) {
   return (
-    <CloseButton onClick={prop.handler}>
-      <CloseLogo />
-    </CloseButton>
+    <button onClick={prop.handler}>
+      <div>
+        <CloseLogo />
+      </div>
+    </button>
   );
 }
 
@@ -76,9 +79,9 @@ const SearchBtn = styled.button`
 
 export function SearchButton(prop: any) {
   return (
-    <SearchBtn type="submit" onClick={prop.handler}>
+    <button className={prop.class} type="submit" onClick={prop.handler}>
       {prop.children}
-    </SearchBtn>
+    </button>
   );
 }
 const SearchBtn2 = styled(SearchBtn)`

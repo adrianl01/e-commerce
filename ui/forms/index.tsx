@@ -1,16 +1,10 @@
 import { useRouter } from "next/router";
-import { SearchButton, SearchButton2 } from "../buttons";
-import {
-  FormDiv,
-  InputBody,
-  InputBody2,
-  InputSignUp,
-  SignUpFormLabel,
-} from "./style";
+import { SearchButton2 } from "../buttons";
+import { FormDiv, InputBody2, InputSignUp, SignUpFormLabel } from "./style";
 import Form from "next/form";
 import { getToken, validateEmail } from "@/lib/api";
 
-export function HomeForm() {
+export function HomeForm(props: any) {
   const router = useRouter();
   const handlerHomeForm = (e: any) => {
     e.preventDefault();
@@ -22,9 +16,19 @@ export function HomeForm() {
     }
   };
   return (
-    <Form className="homeFormDiv" action="" onSubmit={handlerHomeForm}>
-      <InputBody name="query" placeholder="Encontrá tu producto Ideal" />
-      <SearchButton type="submit">Buscar</SearchButton>
+    <Form
+      className="flex flex-col gap-4 w-[100%]"
+      action=""
+      onSubmit={handlerHomeForm}
+    >
+      <input
+        className={props.classInput}
+        name="query"
+        placeholder="Encontrá tu producto Ideal"
+      />
+      <button className={props.classButton} type="submit">
+        Buscar
+      </button>
     </Form>
   );
 }

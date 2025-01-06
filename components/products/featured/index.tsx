@@ -1,6 +1,5 @@
 import { searchProducts } from "@/lib";
 import { BoxProd } from "../../box-product";
-import { ProdDiv, ProdTitle } from "./style";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -26,6 +25,7 @@ export function FeaturedProducts() {
               <Link href={"/item/" + r.objectID} key={r.objectID}>
                 {" "}
                 <BoxProd
+                  mainDiv="flex flex-col bg-[#e75a7c] w-[328px] h-[322px] rounded-lg border-solid border-black border-[4px] text-black"
                   title={r.Name}
                   price={r.Unit_cost}
                   img={r.Images[0].url}
@@ -39,11 +39,12 @@ export function FeaturedProducts() {
       return <div>Cargando...</div>;
     }
   }
-
   return (
-    <ProdDiv>
-      <ProdTitle>Productos Destacados</ProdTitle>
+    <div className="bg-[#863145] flex flex-col items-center justify-center w-[100%] text-white pt-[20px] pb-[20px] gap-[20px] h-[1213px]">
+      <h3 className="text-[45px] text-center m-[10px] text-[#fc86ae]">
+        Productos Destacados
+      </h3>
       <ShowData dataList={data} />
-    </ProdDiv>
+    </div>
   );
 }

@@ -1,5 +1,4 @@
 import { FooterButton } from "@/ui/buttons";
-import { FooterDiv, FooterButtonDiv, FooterBoxDiv } from "./style";
 import { InstaLogo, XLogo } from "@/imgs";
 import Link from "next/link";
 
@@ -17,54 +16,51 @@ export function Footer() {
     console.log("botón X");
   };
   return (
-    <FooterDiv>
-      <FooterBoxDiv>
-        <FooterButtonDiv>
+    <div className="bg-black flex flex-col items-start justify-between pt-[50px] py-[19px] px-[22px] text-white h-[648px] text-[25px]">
+      <div className="flex flex-col gap-4">
+        <div className="pb-3">
           {" "}
           <Link href={"/signin"}>
             {" "}
             <FooterButton>Ingresar</FooterButton>
           </Link>
-        </FooterButtonDiv>
-        <FooterButtonDiv>
+        </div>
+        <div className="pb-3">
           {" "}
           <Link href={"/profile"}>
             {" "}
             <FooterButton>Mi Perfil</FooterButton>
           </Link>
-        </FooterButtonDiv>
-        <FooterButtonDiv>
+        </div>
+        <div className="pb-3">
           {" "}
           <Link href={"/search"}>
             <FooterButton>Buscar</FooterButton>
           </Link>
-        </FooterButtonDiv>
-        <FooterButtonDiv>
+        </div>
+        <div className="pb-3">
           {" "}
           <FooterButton handler={handlerLogOut}>Log Out</FooterButton>
-        </FooterButtonDiv>
-      </FooterBoxDiv>
-      <FooterBoxDiv>
+        </div>
+      </div>
+      <div className="flex flex-col gap-4 w-[100%]">
         <div className="text-4xl">Redes</div>
-        <FooterButtonDiv>
+        <div className="pb-3 w-[100%]">
           {" "}
           <FooterButton handler={handlerInsta}>
             <InstaLogo />
             E-Commerce
           </FooterButton>
-        </FooterButtonDiv>
-        <FooterButtonDiv>
+        </div>
+        <div className="pb-3 w-[100%]">
           {" "}
           <FooterButton handler={handlerX}>
             <XLogo />
             E-Commerce
           </FooterButton>
-        </FooterButtonDiv>
-      </FooterBoxDiv>
-      <FooterButtonDiv style={{ fontSize: "25px", fontWeight: 400 }}>
-        {" "}
-        ©2024 apx
-      </FooterButtonDiv>
-    </FooterDiv>
+        </div>
+      </div>
+      <div className="pb-3 text-2xl font-normal"> ©2024 apx</div>
+    </div>
   );
 }

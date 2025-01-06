@@ -15,7 +15,6 @@ export function Profile() {
       userAge,
       phoneNumber,
     };
-    console.log(firstName, lastName, address, phoneNumber);
     updateUser(additionalUserData as userData);
     updateAddress(address);
   };

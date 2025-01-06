@@ -2,7 +2,7 @@ import { BoxDiv, BoxTitlePriceDiv } from "./style";
 
 export function BoxProd(prop: any) {
   return (
-    <BoxDiv>
+    <div className={prop.mainDiv}>
       <div className="flex align-middle justify-center h-[237px] w-full">
         <img src={prop.img} alt={prop.title} style={{ maxHeight: "237px" }} />
       </div>
@@ -11,6 +11,6 @@ export function BoxProd(prop: any) {
         <div>{prop.title}</div>
         <div>${prop.price}</div>
       </BoxTitlePriceDiv>
-    </BoxDiv>
+    </div>
   );
 }

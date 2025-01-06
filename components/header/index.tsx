@@ -1,5 +1,4 @@
 import { BurgerButton } from "@/ui/buttons";
-import { HeaderDiv } from "./style";
 import { Menu } from "./menu";
 import { BuyItLogo } from "@/imgs";
 import Link from "next/link";
@@ -12,7 +11,7 @@ export function Header() {
   };
 
   return (
-    <HeaderDiv>
+    <div className="bg-black flex justify-between py-5 px-[22px] ">
       <Link href={"/"}>
         <BuyItLogo />
       </Link>
@@ -20,6 +19,6 @@ export function Header() {
       <div className="divMenu" id="menu">
         <Menu />
       </div>
-    </HeaderDiv>
+    </div>
   );
 }
