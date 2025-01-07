@@ -36,13 +36,13 @@ export function FeaturedProducts() {
         </div>
       );
     } else {
-      return <div>Cargando...</div>;
+      return <div>Loading...</div>;
     }
   }
   return (
     <div className="bg-[#863145] flex flex-col items-center justify-center w-[100%] text-white pt-[20px] pb-[20px] gap-[20px] h-[1213px]">
       <h3 className="text-[45px] text-center m-[10px] text-[#fc86ae]">
-        Productos Destacados
+        Suggested Products
       </h3>
       <ShowData dataList={data} />
     </div>

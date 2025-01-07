@@ -16,21 +16,22 @@ export function Item(props: any) {
   });
 
   function ShowData(props: any) {
-    if (props.prodData !== undefined) {
-      const prod = props.prodData;
+    if (props.prodData) {
+      const prod = props.prodData as any;
+      const img = prod.Images[0].url;
       return (
         <div className="h-full text-4xl flex flex-col px-5 py-4 font-bold gap-7">
-          <img className="h-[237px]" src={prod.img} alt="item" />
+          <img className="w-[100%]" src={img} alt="item" />
           <h2>{prod.Name}</h2>
           <div>${prod.Unit_cost}</div>
-          <button className="h-[63px] bg-cyan-200 rounded-lg">Comprar</button>
+          <button className="h-[63px] bg-red-400 rounded-lg">Buy</button>
           <p className="font-normal text-2xl">
-            Descripción:{" " + prod.Description}
+            Description:{" " + prod.Description}
           </p>
         </div>
       );
     } else {
-      return <div>Cargando...</div>;
+      return <div>Loading...</div>;
     }
   }
   return (

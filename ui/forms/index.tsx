@@ -45,8 +45,8 @@ export function SearchForm() {
   };
   return (
     <Form className="homeFormDiv2" action="" onSubmit={handlerSearchForm}>
-      <InputBody2 name="query" placeholder="Encontrá tu producto Ideal" />
-      <SearchButton2 type="submit">Buscar</SearchButton2>
+      <InputBody2 name="query" placeholder="Click here to search" />
+      <SearchButton2 type="submit">Search</SearchButton2>
     </Form>
   );
 }

@@ -22,20 +22,20 @@ export function Footer() {
           {" "}
           <Link href={"/signin"}>
             {" "}
-            <FooterButton>Ingresar</FooterButton>
+            <FooterButton>Log In</FooterButton>
           </Link>
         </div>
         <div className="pb-3">
           {" "}
           <Link href={"/profile"}>
             {" "}
-            <FooterButton>Mi Perfil</FooterButton>
+            <FooterButton>My Profile</FooterButton>
           </Link>
         </div>
         <div className="pb-3">
           {" "}
           <Link href={"/search"}>
-            <FooterButton>Buscar</FooterButton>
+            <FooterButton>Search</FooterButton>
           </Link>
         </div>
         <div className="pb-3">
@@ -44,7 +44,7 @@ export function Footer() {
         </div>
       </div>
       <div className="flex flex-col gap-4 w-[100%]">
-        <div className="text-4xl">Redes</div>
+        <div className="text-4xl">Our Socials</div>
         <div className="pb-3 w-[100%]">
           {" "}
           <FooterButton handler={handlerInsta}>

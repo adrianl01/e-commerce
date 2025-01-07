@@ -15,6 +15,7 @@ export const InputBody2 = styled(InputBody)`
   color: white;
   background-color: black;
   border: solid 5px white;
+  text-align: center;
 `;
 
 export const InputSignUp = styled(InputBody2)`

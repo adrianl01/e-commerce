@@ -24,13 +24,13 @@ export function Menu() {
       </div>
       <div className="MenuButtonBox">
         <Link href={"/signin"}>
-          <MenuButton>Ingresar</MenuButton>
+          <MenuButton>Log In</MenuButton>
         </Link>
         <Link href={"/profile"}>
-          <MenuButton>Mi Perfil</MenuButton>
+          <MenuButton>My Profile</MenuButton>
         </Link>
         <Link href={"/search"}>
-          <MenuButton>Buscar</MenuButton>
+          <MenuButton>Search</MenuButton>
         </Link>
       </div>
       <ShowEmail emailProp={email} />
@@ -43,7 +43,7 @@ export function Menu() {
             logout();
           }}
         >
-          Cerrar Sesión
+          Log Out
         </button>
       ) : (
         <div></div>
