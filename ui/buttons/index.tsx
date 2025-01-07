@@ -84,8 +84,9 @@ export function SearchButton(prop: any) {
     </button>
   );
 }
+
 const SearchBtn2 = styled(SearchBtn)`
-  background-color: #ffc700;
+  background-color: #d14e6d;
   color: black;
   width: 100%;
   font-size: 25px;

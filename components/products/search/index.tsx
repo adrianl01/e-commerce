@@ -56,6 +56,7 @@ export function ProdResults() {
               <Link href={"/item/" + r.objectID} key={r.objectID}>
                 {" "}
                 <BoxProd
+                  mainDiv="flex flex-col bg-[#e75a7c] w-[328px] h-[322px] rounded-lg border-solid border-black border-[4px] text-black"
                   title={r.Name}
                   price={r.Unit_cost}
                   img={r.Images[0].url}

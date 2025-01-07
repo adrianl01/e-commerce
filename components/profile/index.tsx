@@ -77,7 +77,7 @@ export function Profile() {
           />
         </fieldset>
         <button
-          className="text-3xl font-bold h-14 w-full bg-yellow-400 rounded-lg"
+          className="text-3xl font-bold h-14 w-full bg-[#d14e6d] rounded-lg"
           type="submit"
         >
           Guardar
