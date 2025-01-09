@@ -1,6 +1,7 @@
 import { FooterButton } from "@/ui/buttons";
 import { InstaLogo, XLogo } from "@/imgs";
 import Link from "next/link";
+import { useEmail } from "@/lib/hooks";
 
 export function Footer() {
   const handlerLogOut = (e: any) => {
@@ -15,6 +16,7 @@ export function Footer() {
     e.preventDefault();
     console.log("botón X");
   };
+  const email = useEmail();
   return (
     <div className="bg-black flex flex-col items-start justify-between pt-[50px] py-[19px] px-[22px] text-white h-[648px] text-[25px]">
       <div className="flex flex-col gap-4">
@@ -25,13 +27,17 @@ export function Footer() {
             <FooterButton>Log In</FooterButton>
           </Link>
         </div>
-        <div className="pb-3">
-          {" "}
-          <Link href={"/profile"}>
+        {email ? (
+          <div className="pb-3">
             {" "}
-            <FooterButton>My Profile</FooterButton>
-          </Link>
-        </div>
+            <Link href={"/profile"}>
+              {" "}
+              <FooterButton>My Profile</FooterButton>
+            </Link>
+          </div>
+        ) : (
+          <div></div>
+        )}
         <div className="pb-3">
           {" "}
           <Link href={"/search"}>

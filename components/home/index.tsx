@@ -1,6 +1,13 @@
+import { useEmail, useMe } from "@/lib/hooks";
 import { HomeForm } from "@/ui/forms";
+import { useRouter } from "next/navigation";
 
 export function HomeComp() {
+  const email = useEmail();
+  // const user = useMe();
+  // if (email) {
+  //   console.log(user);
+  // }
   return (
     <div className="flex items-center justify-center gap-10 flex-col h-[540px] text-black p-[15px]">
       <div className=" flex flex-col justify-center items-center text-[55px]">

@@ -65,11 +65,14 @@ export function SignUpForm() {
     </Form>
   );
 }
-export function SignUpCodeForm() {
+export function SignUpCodeForm(prop: any) {
   const SignUpCodeHandler = (e: any) => {
     const code = e.target.code.value;
     const res = getToken(code);
-    res.then((r) => console.log(r));
+    res.then((r) => {
+      console.log(r);
+      // prop.home();
+    });
   };
   return (
     <Form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>

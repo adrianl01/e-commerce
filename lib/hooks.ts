@@ -3,11 +3,11 @@ import useSWRImmutable from "swr";
 import { fetchAPI } from "./api";
 
 
-// export function useMe() {
-//     const { data, error } = useSWR("/me", fetchAPI);
-//     const res = data ? data : null;
-//     return res;
-// }
+export function useMe() {
+    const { data, error } = useSWR("/me", fetchAPI as any);
+    const res = data ? data : null;
+    return res;
+}
 
 export async function useProducts(
     query: string | undefined,

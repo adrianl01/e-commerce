@@ -67,6 +67,15 @@ export async function getToken(code: number) {
     return data;
 }
 
+export async function getUser() {
+    return await fetchAPI("/me", {
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+        },
+    });
+}
 export async function updateUser(additionalUserData: userData) {
     return await fetchAPI("/me", {
         method: "PATCH",

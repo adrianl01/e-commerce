@@ -26,9 +26,13 @@ export function Menu() {
         <Link href={"/signin"}>
           <MenuButton>Log In</MenuButton>
         </Link>
-        <Link href={"/profile"}>
-          <MenuButton>My Profile</MenuButton>
-        </Link>
+        {email ? (
+          <Link href={"/profile"}>
+            <MenuButton>My Profile</MenuButton>
+          </Link>
+        ) : (
+          <div></div>
+        )}
         <Link href={"/search"}>
           <MenuButton>Search</MenuButton>
         </Link>
