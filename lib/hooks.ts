@@ -3,9 +3,9 @@ import useSWRImmutable from "swr";
 import { fetchAPI } from "./api";
 
 
-export function useMe() {
+export async function useMe() {
     const { data, error } = useSWR("/me", fetchAPI as any);
-    const res = data ? data : null;
+    const res = await data ? data : null;
     return res;
 }
 

@@ -15,6 +15,9 @@ type userInfo = {
 };
 export function Profile() {
   const user = useMe();
+  const [data, userData] = useState("");
+  user.then((r) => userData(r));
+
   const [edit, setEdit] = useState(false);
   const formHandler = (e: any) => {
     e.preventDefault();
@@ -34,7 +37,10 @@ export function Profile() {
     setEdit(false);
   };
   function UserInfo(props: any) {
+    console.log(props);
+
     const userInfo = props.user as userInfo;
+    console.log(userInfo);
     return (
       <div className="flex flex-col justify-between h-[100%] gap-6">
         <div className="flex flex-col text-[25px] gap-6">
@@ -146,7 +152,7 @@ export function Profile() {
           </button>
         </Form>
       ) : (
-        <UserInfo user={user} />
+        <UserInfo user={data} />
       )}
       <div className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]">
         <Link href={"/"}>Cancel</Link>

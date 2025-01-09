@@ -3,7 +3,7 @@ import { HomeForm } from "@/ui/forms";
 import { useRouter } from "next/navigation";
 
 export function HomeComp() {
-  const email = useEmail();
+  // const email = useEmail();
   // const user = useMe();
   // if (email) {
   //   console.log(user);
