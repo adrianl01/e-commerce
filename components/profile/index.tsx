@@ -37,10 +37,7 @@ export function Profile() {
     setEdit(false);
   };
   function UserInfo(props: any) {
-    console.log(props);
-
     const userInfo = props.user as userInfo;
-    console.log(userInfo);
     return (
       <div className="flex flex-col justify-between h-[100%] gap-6">
         <div className="flex flex-col text-[25px] gap-6">
