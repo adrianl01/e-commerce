@@ -32,21 +32,23 @@ export function Profile() {
           <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
             <div className="font-bold ">Name/s:</div>
             <h3 className="text-3xl">
-              {userInfo.additionalUserData.firstName}
+              {userInfo.additionalUserData?.firstName}
             </h3>
           </div>
           <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
             <div className="font-bold "> Last Name/s:</div>
-            <h3 className="text-3xl">{userInfo.additionalUserData.lastName}</h3>
+            <h3 className="text-3xl">
+              {userInfo.additionalUserData?.lastName}
+            </h3>
           </div>
           <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
             <div className="font-bold "> Age:</div>
-            <h3 className="text-3xl">{userInfo.additionalUserData.userAge}</h3>
+            <h3 className="text-3xl">{userInfo.additionalUserData?.userAge}</h3>
           </div>
           <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
             <div className="font-bold "> Phone Number:</div>
             <h3 className="text-3xl">
-              {userInfo.additionalUserData.phoneNumber}
+              {userInfo.additionalUserData?.phoneNumber}
             </h3>
           </div>
           <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
