@@ -4,6 +4,15 @@ import { userData } from "@/lib/api";
 import { useState } from "react";
 import { useMe } from "@/lib/hooks";
 import Link from "next/link";
+type userInfo = {
+  additionalUserData: {
+    firstName: string;
+    lastName: string;
+    userAge: number;
+    phoneNumber: number;
+  };
+  address: string;
+};
 export function Profile() {
   const user = useMe();
   const [edit, setEdit] = useState(false);
@@ -25,7 +34,7 @@ export function Profile() {
     setEdit(false);
   };
   function UserInfo(props: any) {
-    const userInfo = props.user;
+    const userInfo = props.user as userInfo;
     return (
       <div className="flex flex-col justify-between h-[100%] gap-6">
         <div className="flex flex-col text-[25px] gap-6">
