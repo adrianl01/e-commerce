@@ -7,7 +7,7 @@ const BaseHeaderButton = styled.button`
 `;
 export function BurgerButton(prop: any) {
   return (
-    <BaseHeaderButton onClick={prop.handler}>
+    <BaseHeaderButton className={prop.classButton} onClick={prop.handler}>
       <BurguerLogo />
     </BaseHeaderButton>
   );
@@ -25,10 +25,11 @@ const BaseFooterButton = styled.button`
   border-style: none;
   align-items: center;
   display: flex;
+  gap: 10px;
 `;
 export function FooterButton(prop: any) {
   return (
-    <BaseFooterButton className="flex gap-1" onClick={prop.handler}>
+    <BaseFooterButton className="flex items-center" onClick={prop.handler}>
       {prop.children}
     </BaseFooterButton>
   );
@@ -89,6 +90,9 @@ const SearchBtn2 = styled(SearchBtn)`
   background-color: #d14e6d;
   color: black;
   width: 100%;
+  @media (min-width: 768px) {
+    width: 50%;
+  }
   font-size: 25px;
 `;
 export function SearchButton2(prop: any) {

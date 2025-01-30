@@ -35,7 +35,12 @@ export default function SignInPage() {
       <Form className="signUpFormDiv" action="" onSubmit={SignUpHandler}>
         <SignUpFormLabel>Email</SignUpFormLabel>
         <InputSignUp name="email" />
-        <SearchButton2 type="submit">Continuar</SearchButton2>
+        <button
+          className="bg-[#d14e6d] rounded-lg py-1 text-black w-[100%]"
+          type="submit"
+        >
+          Continuar
+        </button>{" "}
       </Form>
     );
   }
@@ -53,7 +58,12 @@ export default function SignInPage() {
       <Form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>
         <InputSignUp name="code" />
         <FormDiv>Te enviamos un código a tu email</FormDiv>
-        <SearchButton2 type="submit">Ingresar</SearchButton2>
+        <button
+          className="bg-[#d14e6d] rounded-lg py-1 text-black w-[100%]"
+          type="submit"
+        >
+          Ingresar
+        </button>{" "}
       </Form>
     );
   }
@@ -62,14 +72,14 @@ export default function SignInPage() {
     <Body>
       <Header />
       {data ? (
-        <div>
+        <div className="md:flex justify-center">
           <SignUpDiv>
             <h4 className="text-4xl text-left font-bold">Código</h4>
             <SignUpCodeForm action={home} />
           </SignUpDiv>
         </div>
       ) : (
-        <div>
+        <div className="md:flex justify-center">
           <SignUpDiv>
             <h4 className="text-4xl text-left font-bold">Ingresar</h4>
             <SignUpForm />

@@ -1,10 +1,11 @@
 import { CloseMenuButton, MenuButton } from "@/ui/buttons";
 import Link from "next/link";
-
 import { useEmail } from "@/lib/hooks";
 import { logout } from "@/lib";
+import { useRouter } from "next/navigation";
 
 export function Menu() {
+  const router = useRouter();
   const closeMenuHandler = (e: any) => {
     e.preventDefault();
     const menu = document.getElementById("menu");
@@ -45,6 +46,8 @@ export function Menu() {
           onClick={() => {
             console.log("logOut");
             logout();
+            router.refresh();
+            console.log("router push");
           }}
         >
           Log Out

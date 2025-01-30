@@ -16,6 +16,7 @@ export function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("email");
+    return { message: "Logged Out" }
 }
 
 export function saveEmail(email: string) {

@@ -8,6 +8,10 @@
 
 body {
   margin: 0;
+  align-items: center;
+  left: 0;
+  right: 0;
+  justify-content: center;
 }
 
 .homeFormDiv {
@@ -23,6 +27,10 @@ body {
   gap: 15px;
   background-color: black;
   padding: 20px;
+
+  @media (min-width:768px) {
+    display: none;
+  }
 }
 
 .signUpFormDiv {
@@ -30,4 +38,8 @@ body {
   flex-direction: column;
   width: 100%;
   gap: 15px;
+
+  @media (min-width:768px) {
+    justify-content: center;
+  }
 }

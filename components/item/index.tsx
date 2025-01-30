@@ -20,14 +20,16 @@ export function Item(props: any) {
       const prod = props.prodData as any;
       const img = prod.Images[0].url;
       return (
-        <div className="h-full text-4xl flex flex-col px-5 py-4 font-bold gap-7">
+        <div className="h-full text-4xl grid grid-cols-1 md:grid-cols-2 px-5 py-4 font-bold gap-7">
           <img className="w-[100%]" src={img} alt="item" />
-          <h2>{prod.Name}</h2>
-          <div>${prod.Unit_cost}</div>
-          <button className="h-[63px] bg-red-400 rounded-lg">Buy</button>
-          <p className="font-normal text-2xl">
-            Description:{" " + prod.Description}
-          </p>
+          <div className="grid gap-6">
+            <h2>{prod.Name}</h2>
+            <div>${prod.Unit_cost}</div>
+            <button className="h-[63px] px-3 bg-red-400 rounded-lg">Buy</button>
+            <p className="font-normal text-2xl">
+              Description:{" " + prod.Description}
+            </p>
+          </div>
         </div>
       );
     } else {

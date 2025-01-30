@@ -8,4 +8,7 @@ export const SignUpDiv = styled.div`
   justify-content: center;
   padding: 20px;
   gap: 55px;
+  @media (min-width: 768px) {
+    width: 350px;
+  }
 `;

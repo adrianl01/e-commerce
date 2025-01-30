@@ -3,8 +3,12 @@ import { BoxDiv, BoxTitlePriceDiv } from "./style";
 export function BoxProd(prop: any) {
   return (
     <div className={prop.mainDiv}>
-      <div className="flex align-middle justify-center h-[237px] w-full">
-        <img src={prop.img} alt={prop.title} style={{ maxHeight: "237px" }} />
+      <div className="flex justify-center w-full h-[70%]">
+        <img
+          className="rounded-t-md h-[100%]"
+          src={prop.img}
+          alt={prop.title}
+        />
       </div>
 
       <BoxTitlePriceDiv>

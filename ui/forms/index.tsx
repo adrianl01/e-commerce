@@ -16,18 +16,14 @@ export function HomeForm(props: any) {
     }
   };
   return (
-    <Form
-      className="flex flex-col gap-4 w-[100%]"
-      action=""
-      onSubmit={handlerHomeForm}
-    >
+    <Form className={props.class} action="" onSubmit={handlerHomeForm}>
       <input
         className={props.classInput}
         name="query"
-        placeholder="Encontrá tu producto Ideal"
+        placeholder="Find your product"
       />
       <button className={props.classButton} type="submit">
-        Buscar
+        Search
       </button>
     </Form>
   );
@@ -61,7 +57,7 @@ export function SignUpForm() {
     <Form className="signUpFormDiv" action="" onSubmit={SignUpHandler}>
       <SignUpFormLabel>Email</SignUpFormLabel>
       <InputSignUp name="email" />
-      <SearchButton2 type="submit">Continuar</SearchButton2>
+      <SearchButton2 type="submit">Continue</SearchButton2>
     </Form>
   );
 }
