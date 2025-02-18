@@ -11,7 +11,7 @@ export default function CheckoutPage() {
     <Body>
       <Header />
       <SearchForm />
-      <Item itemId={param} />
+      {/* <Item checkoutId={param} /> */}
       <Footer />
     </Body>
   );
