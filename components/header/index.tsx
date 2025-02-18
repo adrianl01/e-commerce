@@ -16,11 +16,12 @@ export function Header() {
   var sliced = strgparam.slice(2, 6);
   if (sliced === "item") {
     isSearch = true;
-  } else if ((loc = "/search")) {
+  } else if (loc === "/search") {
     isSearch = true;
   } else {
     isSearch = false;
   }
+  console.log(isSearch);
   function SearchHeaderForm(prop: any) {
     const isSearch = prop.conditional;
     const router = useRouter();
