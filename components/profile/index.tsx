@@ -1,8 +1,9 @@
-import { getUser, updateAddress, updateUser } from "@/lib/api";
+import { getToken, getUser, updateAddress, updateUser } from "@/lib/api";
 import Form from "next/form";
 import { userData } from "@/lib/api";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { retrieveToken } from "@/lib";
 type userInfo = {
   additionalUserData: {
     firstName: string;
@@ -13,6 +14,7 @@ type userInfo = {
   address: string;
 };
 export function Profile() {
+  const token = retrieveToken();
   const getUsr = getUser();
   const [data, userData] = useState("");
   useEffect(() => {
@@ -25,7 +27,9 @@ export function Profile() {
         console.error(error);
       }
     };
-    loadGetUser();
+    if (token) {
+      loadGetUser();
+    }
   }, []);
 
   const [edit, setEdit] = useState(false);
