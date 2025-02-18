@@ -4,14 +4,16 @@ import { Item } from "@/components/item";
 import { SearchForm } from "@/ui/forms";
 import { Body } from "@/ui/typography/inter";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 export default function ItemPage() {
-  const param = useParams();
+  const router = useRouter();
+  console.log(router);
   return (
     <Body>
       <Header />
       <SearchForm />
-      <Item itemId={param} />
+      <Item itemId={router.query} />
       <Footer />
     </Body>
   );
