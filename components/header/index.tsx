@@ -2,27 +2,27 @@ import { BurgerButton, SearchButton2 } from "@/ui/buttons";
 import { Menu } from "./menu";
 import { BuyItLogo } from "@/imgs";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { InputBody2 } from "@/ui/forms/style";
 import Form from "next/form";
 import { useEmail } from "@/lib/hooks";
 
 export function Header() {
-  const router = usePathname();
+  const param = useParams();
   const email = useEmail();
-  console.log(router);
-  const sliced = router.slice(0, 5);
-  console.log(sliced);
+  var loc = usePathname();
   let isSearch = false;
-  if (router === "/search") {
+  const strgparam = JSON.stringify(param);
+  var sliced = strgparam.slice(2, 6);
+  if (sliced === "item") {
     isSearch = true;
-  }
-  if (sliced === "/item") {
+  } else if ((loc = "/search")) {
     isSearch = true;
+  } else {
+    isSearch = false;
   }
-  console.log(isSearch);
-
-  function SearchHeaderForm() {
+  function SearchHeaderForm(prop: any) {
+    const isSearch = prop.conditional;
     const router = useRouter();
     const handlerSearchForm = (e: any) => {
       e.preventDefault();
@@ -33,7 +33,7 @@ export function Header() {
         router.push("/search?query=" + q + "&offset=0");
       }
     };
-    return (
+    return isSearch ? (
       <Form
         className="invisible md:visible flex gap-3 items-center w-[70vh]"
         action=""
@@ -46,6 +46,8 @@ export function Header() {
         />
         <SearchButton2 type="submit">Search</SearchButton2>
       </Form>
+    ) : (
+      <div></div>
     );
   }
 
@@ -77,7 +79,7 @@ export function Header() {
         <BuyItLogo />
       </Link>
 
-      {isSearch ? <SearchHeaderForm /> : <div></div>}
+      <SearchHeaderForm conditional={isSearch} />
 
       {email ? (
         <ProfileButton

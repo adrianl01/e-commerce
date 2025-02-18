@@ -1,11 +1,14 @@
 import { getProductbyId } from "@/lib";
+import { useBuyProduct } from "@/lib/api";
 import { Body } from "@/ui/typography/inter";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export function Item(props: any) {
   const productId = props.itemId.itemId;
   const result = getProductbyId(productId);
   const [data, setData] = useState("") as any;
+  const param = useParams();
 
   result.then((r: any) => {
     if (r !== null) {
@@ -14,6 +17,12 @@ export function Item(props: any) {
       return <div>nada</div>;
     }
   });
+  const handleBuy = async () => {
+    const id = param.itemId as string;
+    const res = await useBuyProduct(id);
+    console.log(res);
+    // router.push("");
+  };
 
   function ShowData(props: any) {
     if (props.prodData) {
@@ -25,7 +34,12 @@ export function Item(props: any) {
           <div className="grid gap-6">
             <h2>{prod.Name}</h2>
             <div>${prod.Unit_cost}</div>
-            <button className="h-[63px] px-3 bg-red-400 rounded-lg">Buy</button>
+            <button
+              className="h-[63px] px-3 bg-red-400 rounded-lg"
+              onClick={handleBuy}
+            >
+              Buy
+            </button>
             <p className="font-normal text-2xl">
               Description:{" " + prod.Description}
             </p>

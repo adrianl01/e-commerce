@@ -3,16 +3,15 @@ import { Header } from "@/components/header";
 import { Item } from "@/components/item";
 import { SearchForm } from "@/ui/forms";
 import { Body } from "@/ui/typography/inter";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 export default function ItemPage() {
-  const router = useRouter();
-  console.log(router.query);
+  const param = useParams();
   return (
     <Body>
       <Header />
       <SearchForm />
-      <Item itemId={router.query} />
+      <Item itemId={param} />
       <Footer />
     </Body>
   );

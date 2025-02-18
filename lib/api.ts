@@ -98,6 +98,19 @@ export async function updateAddress(address: string) {
     });
 }
 
+export async function useBuyProduct(id: string) {
+    const res = await fetchAPI("/order/?productId=" + id, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-type": "application/json",
+        },
+        // body: JSON.stringify({}),
+    })
+    return res
+}
+
+
 // export async function generateOrder(
 //   address: string,
 //   products: shoppingCartItem[]
