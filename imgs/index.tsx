@@ -6,7 +6,7 @@ import insta from "./insta.png";
 import x from "./x.png";
 
 export function BuyItLogo() {
-  return <Image alt="compralo" src={buyIt} />;
+  return <Image alt="compralo" src={buyIt} width={150} />;
 }
 export function BurguerLogo() {
   return <Image alt="burguer" src={burguer} />;

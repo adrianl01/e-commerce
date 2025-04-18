@@ -2,21 +2,22 @@ import { BurgerButton, SearchButton2 } from "@/ui/buttons";
 import { Menu } from "./menu";
 import { BuyItLogo } from "@/imgs";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { InputBody2 } from "@/ui/forms/style";
 import Form from "next/form";
 import { useEmail } from "@/lib/hooks";
 
 export function Header() {
-  const param = useParams();
+  const path = usePathname();
   const email = useEmail();
-  var loc = usePathname();
   let isSearch = false;
-  const strgparam = JSON.stringify(param);
-  var sliced = strgparam.slice(2, 6);
-  if (sliced === "item") {
+  const strgparam = JSON.stringify(path);
+  console.log(strgparam);
+  const p = strgparam.split("/")[1].slice(0, 6);
+  console.log(p);
+  if (p === "item") {
     isSearch = true;
-  } else if (loc === "/search") {
+  } else if (p === "search") {
     isSearch = true;
   } else {
     isSearch = false;
@@ -36,7 +37,7 @@ export function Header() {
     };
     return isSearch ? (
       <Form
-        className="invisible md:visible flex gap-3 items-center w-[70vh]"
+        className="invisible w-[0px] h-0 md:visible md:h-[40px] md:flex md:gap-2 md:items-center md:w-[570px]"
         action=""
         onSubmit={handlerSearchForm}
       >
@@ -48,7 +49,7 @@ export function Header() {
         <SearchButton2 type="submit">Search</SearchButton2>
       </Form>
     ) : (
-      <div></div>
+      <></>
     );
   }
 
@@ -75,27 +76,24 @@ export function Header() {
     );
   }
   return (
-    <div className="bg-black flex justify-between py-5 px-[22px] ">
+    <div className="bg-black md:pb-5 flex justify-between gap-3 py-5 px-5 items-center">
       <Link href={"/"}>
         <BuyItLogo />
       </Link>
-
       <SearchHeaderForm conditional={isSearch} />
-
       {email ? (
         <ProfileButton
           classButton={
-            "invisible md:visible bg-red-700 rounded-lg text-[white] px-4"
+            "invisible w-0 h-0 md:w-[80px] md:h-[40px] md:visible bg-red-700 rounded-lg text-[white] px-4"
           }
         />
       ) : (
-        <ProfileButton
+        <LogInButton
           classButton={
-            "invisible md:visible bg-red-700 rounded-lg text-[white] px-4"
+            "invisible md:visible bg-red-700 rounded-lg text-[white] px-4 h-[40px]"
           }
         />
       )}
-
       <BurgerButton classButton={"block md:hidden"} handler={handlerOpenMenu} />
       <div className="divMenu" id="menu">
         <Menu />

@@ -1,10 +1,11 @@
-import { getToken, getUser, updateAddress, updateUser } from "@/lib/api";
+import { getUser, updateAddress, updateUser } from "@/lib/api";
 import Form from "next/form";
 import { userData } from "@/lib/api";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { retrieveToken } from "@/lib";
-type userInfo = {
+import { UserInfo } from "./userInfo";
+import { useRouter } from "next/navigation";
+export type userInfo = {
   additionalUserData: {
     firstName: string;
     lastName: string;
@@ -14,6 +15,7 @@ type userInfo = {
   address: string;
 };
 export function Profile() {
+  const r = useRouter();
   const token = retrieveToken();
   const getUsr = getUser();
   const [data, userData] = useState("");
@@ -30,7 +32,7 @@ export function Profile() {
     if (token) {
       loadGetUser();
     }
-  }, []);
+  }, [getUsr]);
 
   const [edit, setEdit] = useState(false);
   const formHandler = (e: any) => {
@@ -50,52 +52,16 @@ export function Profile() {
     updateAddress(address);
     setEdit(false);
   };
-  function UserInfo(props: any) {
-    const userInfo = props.user as userInfo;
-    return (
-      <div className="flex flex-col justify-between h-[100%] gap-6">
-        <div className="flex flex-col text-[25px] gap-6">
-          <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-            <div className="font-bold ">Name/s:</div>
-            <h3 className="text-3xl">
-              {userInfo.additionalUserData?.firstName}
-            </h3>
-          </div>
-          <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-            <div className="font-bold "> Last Name/s:</div>
-            <h3 className="text-3xl">
-              {userInfo.additionalUserData?.lastName}
-            </h3>
-          </div>
-          <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-            <div className="font-bold "> Age:</div>
-            <h3 className="text-3xl">{userInfo.additionalUserData?.userAge}</h3>
-          </div>
-          <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-            <div className="font-bold "> Phone Number:</div>
-            <h3 className="text-3xl">
-              {userInfo.additionalUserData?.phoneNumber}
-            </h3>
-          </div>
-          <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-            <div className="font-bold "> Address:</div>
-            <h3 className="text-3xl">{userInfo.address}</h3>
-          </div>
-        </div>
 
-        <button
-          className="py-4 pl-2 text-3xl bg-red-500 rounded-lg border-solid border-black border-[5px] "
-          onClick={() => {
-            console.log(edit);
-            setEdit(true);
-            console.log(edit);
-          }}
-        >
-          Update Info
-        </button>
-      </div>
-    );
-  }
+  const handleCancel = (e: any) => {
+    e.preventDefault();
+    if (edit) {
+      setEdit(false);
+    } else {
+      r.push("/");
+    }
+  };
+
   return (
     <div className="flex w-[100%] md:justify-center">
       <div className="flex flex-col bg-white px-5 py-4 h-[100%] gap-6 md:w-[400px]">
@@ -157,20 +123,21 @@ export function Profile() {
               />
             </fieldset>
             <button
-              className="text-3xl font-bold h-14 w-full bg-[#d14e6d] rounded-lg"
+              className="flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
               type="submit"
             >
               Guardar
             </button>
           </Form>
         ) : (
-          <UserInfo user={data} />
+          <UserInfo user={data} setter={setEdit} />
         )}
-        <Link href={"/"}>
-          <div className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]">
-            Cancel
-          </div>
-        </Link>
+        <div
+          className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
+          onClick={handleCancel}
+        >
+          Cancel
+        </div>
       </div>
     </div>
   );

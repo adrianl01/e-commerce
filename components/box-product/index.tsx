@@ -4,11 +4,7 @@ export function BoxProd(prop: any) {
   return (
     <div className={prop.mainDiv}>
       <div className="flex justify-center w-full h-[70%]">
-        <img
-          className="rounded-t-md h-[100%]"
-          src={prop.img}
-          alt={prop.title}
-        />
+        <img className="h-[100%]" src={prop.img} alt={prop.title} />
       </div>
 
       <BoxTitlePriceDiv>

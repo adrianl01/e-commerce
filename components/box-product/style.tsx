@@ -12,12 +12,12 @@ export const BoxDiv = styled.div`
 `;
 export const BoxTitlePriceDiv = styled.div`
   padding: 10px;
-  height: 30%;
   display: flex;
+  height: fit-content;
   justify-content: space-between;
   font-size: 25px;
-  @media (min-width: 768px) {
+  /* @media (min-width: 768px) {
     font-size: 35px;
-  }
+  } */
   align-items: center;
 `;

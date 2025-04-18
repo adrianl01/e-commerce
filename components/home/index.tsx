@@ -9,11 +9,10 @@ export function HomeComp() {
   //   console.log(user);
   // }
   return (
-    <div className="flex items-center justify-center gap-10 flex-col h-[540px] text-black p-[15px]">
+    <div className="flex items-center justify-center gap-10 flex-col h-[740px] text-black p-[15px]">
       <div className=" flex flex-col justify-center items-center text-[55px]">
-        <div>The Best</div>
-        <div>Furniture</div>
-        <div>E-Commerce</div>
+        <div className="text-[75px]">Compralo</div>
+        <div className="text-[25px]">The best online furniture store</div>
       </div>
       <HomeForm
         class="flex flex-col gap-4 w-[100%] sm:w-[400px]"

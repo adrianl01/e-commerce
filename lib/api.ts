@@ -38,7 +38,7 @@ export async function fetchAPI(param: RequestInfo, option: RequestInit) {
 export async function validateEmail(email: string) {
     console.log({ email });
     saveEmail(email);
-    return await fetchAPI("/auth", {
+    return await fetchAPI("auth", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -54,7 +54,7 @@ export async function getToken(code: number) {
     const email = getEmail();
     console.log(email, code, "from getToken");
 
-    const data = await fetchAPI("/auth/token", {
+    const data = await fetchAPI("auth/token", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -68,7 +68,7 @@ export async function getToken(code: number) {
 }
 
 export async function getUser() {
-    return await fetchAPI("/me", {
+    return await fetchAPI("me", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -77,7 +77,7 @@ export async function getUser() {
     });
 }
 export async function updateUser(additionalUserData: userData) {
-    return await fetchAPI("/me", {
+    return await fetchAPI("me", {
         method: "PATCH",
         mode: "cors",
         headers: {
@@ -88,7 +88,7 @@ export async function updateUser(additionalUserData: userData) {
 }
 
 export async function updateAddress(address: string) {
-    return await fetchAPI("/me/address", {
+    return await fetchAPI("me/address", {
         method: "PATCH",
         mode: "cors",
         headers: {
@@ -99,15 +99,17 @@ export async function updateAddress(address: string) {
 }
 
 export async function useBuyProduct(id: string) {
-    const res = await fetchAPI("/order/?productId=" + id, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
-        // body: JSON.stringify({}),
-    })
-    return res
+    const token = retrieveToken()
+    const init: any = {};
+    if (token) {
+        init.headers ||= {};
+        init.headers.Authorization = "Bearer " + token;
+        init.headers["Content-type"] = "application/json";
+        init.method = "POST";
+        init.mode = "cors";
+        const res = await fetchAPI("order/?productId=" + id, init)
+        return res
+    } else { return { message: "No token found" } }
 }
 
 
