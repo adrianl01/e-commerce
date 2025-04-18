@@ -1,18 +1,21 @@
+import { useRouter } from "next/router";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { Item } from "@/components/item";
 import { SearchForm } from "@/ui/forms";
 import { Body } from "@/ui/typography/inter";
-import { useParams } from "next/navigation";
 
 export default function CheckoutPage() {
-  const p = useParams();
-  console.log(p);
-
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+  console.log(router);
   return (
     <Body>
       <Header />
       <SearchForm />
-      {/* <Item checkoutId={router} /> */}
+      {/* <Item itemId={router.query} /> */}
       <Footer />
     </Body>
   );

@@ -109,7 +109,7 @@ export async function useBuyProduct(id: string) {
         init.mode = "cors";
         const res = await fetchAPI("order/?productId=" + id, init)
         return res
-    } else { return { message: "No token found" } }
+    } else { return { message: "Token Not Found" } }
 }
 
 

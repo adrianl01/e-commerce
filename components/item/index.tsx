@@ -1,10 +1,11 @@
 import { getProductbyId } from "@/lib";
 import { useBuyProduct } from "@/lib/api";
 import { Body } from "@/ui/typography/inter";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function Item(props: any) {
+  const router = useRouter();
   const productId = props.itemId.itemId;
   const result = getProductbyId(productId);
   const [data, setData] = useState("") as any;
@@ -22,7 +23,11 @@ export function Item(props: any) {
     const id = param.itemId as string;
     const res = await useBuyProduct(id);
     console.log(res);
-    // router.push("");
+    if (res.message == "Token Not Found") {
+      return <div>You must Log In first</div>;
+    } else {
+      router.push(res.url);
+    }
   };
 
   function ShowData(props: any) {
