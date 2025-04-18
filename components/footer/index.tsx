@@ -6,15 +6,12 @@ import { useEmail } from "@/lib/hooks";
 export function Footer() {
   const handlerLogOut = (e: any) => {
     e.preventDefault();
-    console.log("botón Log Out");
   };
   const handlerInsta = (e: any) => {
     e.preventDefault();
-    console.log("botón Insta");
   };
   const handlerX = (e: any) => {
     e.preventDefault();
-    console.log("botón X");
   };
   const email = useEmail();
   return (

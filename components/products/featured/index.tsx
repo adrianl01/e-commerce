@@ -6,13 +6,11 @@ import Link from "next/link";
 const offset = Math.floor(Math.random() * 17).toString();
 
 export function FeaturedProducts() {
-  console.log("FeaturedProducts");
   // console.log("random offset", offset);
 
   const result = searchProducts("random", offset);
   const [data, setData] = useState("") as any;
   result.then((r) => {
-    console.log(r);
     setData(r);
   });
 

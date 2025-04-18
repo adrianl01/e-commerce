@@ -1,7 +1,6 @@
 import { userInfo } from ".";
 
 export function UserInfo(props: any) {
-  console.log(props);
   const userInfo = props.user as userInfo;
   const setEdit = props.setter;
   return (

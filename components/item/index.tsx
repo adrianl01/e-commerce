@@ -19,7 +19,6 @@ export function Item(props: any) {
     }
   });
   const handleBuy = async () => {
-    console.log("handleBuy button");
     const id = param.itemId as string;
     const res = await useBuyProduct(id);
     console.log(res);

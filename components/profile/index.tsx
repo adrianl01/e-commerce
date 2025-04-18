@@ -23,7 +23,6 @@ export function Profile() {
     const loadGetUser = async () => {
       try {
         const res = await getUsr;
-        console.log(res);
         userData(res);
       } catch (error) {
         console.error(error);

@@ -14,7 +14,6 @@ export function ProdResults() {
   const offset = searchParams.get("offset") as any;
   const newOffset = JSON.parse(offset) + 3;
   function BackButton(props: any) {
-    console.log(props);
     if (props.offset > 0) {
       return (
         <button

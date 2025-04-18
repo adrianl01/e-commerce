@@ -13,7 +13,6 @@ export function Menu() {
   };
   const email = useEmail();
 
-  console.log("emailMenu:", email);
   function ShowEmail(props: any) {
     return <div className="text-[23px]">{props.emailProp}</div>;
   }
@@ -44,10 +43,8 @@ export function Menu() {
         <button
           className="bg-black border-none text-[20px] font-normal text-center text-red-600"
           onClick={() => {
-            console.log("logOut");
             logout();
             router.refresh();
-            console.log("router push");
           }}
         >
           Log Out

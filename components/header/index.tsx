@@ -8,18 +8,15 @@ import Form from "next/form";
 import { useEmail } from "@/lib/hooks";
 
 export function Header() {
-  console.log("header");
   const path = usePathname();
   const email = useEmail();
   let isSearch = false;
   const strgparam = JSON.stringify(path);
-  console.log(strgparam);
   if (strgparam) {
     let p = strgparam.split("/")[1];
     if (p) {
       p.slice(0, 6);
     }
-    console.log(p);
     if (p === "item") {
       isSearch = true;
     } else if (p === "search") {
@@ -29,7 +26,6 @@ export function Header() {
     }
   }
 
-  console.log(isSearch);
   function SearchHeaderForm(prop: any) {
     const isSearch = prop.conditional;
     const router = useRouter();
