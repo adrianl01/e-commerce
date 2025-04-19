@@ -34,7 +34,7 @@ export function Item(props: any) {
       const prod = props.prodData as any;
       const img = prod.Images[0].url;
       return (
-        <div className="text-4xl grid grid-cols-1 md:grid-cols-2 px-5 py-4 font-bold gap-7">
+        <div className="text-4xl grid grid-cols-1 md:grid-cols-2 px-5 py-6 font-bold gap-7">
           <img className="w-[100%]" src={img} alt="item" />
           <div className="grid gap-6">
             <h2 className="font-bold text-[42px]">{prod.Name}</h2>
