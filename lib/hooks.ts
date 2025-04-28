@@ -1,7 +1,6 @@
 import useSWR from "swr";
 import useSWRImmutable from "swr";
-import { fetchAPI } from "./api";
-
+import { fetchAPI, useBuyProduct } from "./api";
 
 export async function useMe() {
     const { data, error } = useSWR("me", fetchAPI as any);
@@ -50,4 +49,25 @@ export function useEmail() {
     return res;
 }
 
+export async function useBuyProductFunc(id: string) {
+    return await useBuyProduct(id)
+}
 
+export function useGetUserOrders() {
+    const { data, error } = useSWRImmutable('me/orders', fetchAPI as any)
+    return data
+}
+
+export function saveOrders(orders: []) {
+    const parsed = JSON.stringify(orders);
+    return localStorage.setItem("userOrders", parsed);
+}
+
+export async function getOrder(orderId: string) {
+    const orders = localStorage.getItem("userOrders") as string
+    const parsedOrders = JSON.parse(orders)
+    var result = parsedOrders.filter(function (order: any) {
+        return order.orderId == orderId
+    })
+    return await result
+}

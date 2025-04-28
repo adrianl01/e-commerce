@@ -1,10 +1,12 @@
-import { getUser, updateAddress, updateUser } from "@/lib/api";
-import Form from "next/form";
+import { updateAddress, updateUser } from "@/lib/api";
 import { userData } from "@/lib/api";
-import { useEffect, useState } from "react";
-import { retrieveToken } from "@/lib";
+import { useState } from "react";
 import { UserInfo } from "./userInfo";
 import { useRouter } from "next/navigation";
+import { UserOrders } from "./userOrders";
+import { getOrder } from "@/lib/hooks";
+import { OrderInfo } from "./orderInfo";
+import { EditForm } from "./editUserForm";
 export type userInfo = {
   additionalUserData: {
     firstName: string;
@@ -16,24 +18,11 @@ export type userInfo = {
 };
 export function Profile() {
   const r = useRouter();
-  const token = retrieveToken();
-  const getUsr = getUser();
-  const [data, userData] = useState("");
-  useEffect(() => {
-    const loadGetUser = async () => {
-      try {
-        const res = await getUsr;
-        userData(res);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (token) {
-      loadGetUser();
-    }
-  }, [getUsr]);
+  const [orderId, setOrderId] = useState("");
+  const [orderInfo, setOrderInfo] = useState("");
 
   const [edit, setEdit] = useState(false);
+  const [order, setOrder] = useState(false);
   const formHandler = (e: any) => {
     e.preventDefault();
     const firstName = e.target.firstName.value;
@@ -62,74 +51,13 @@ export function Profile() {
   };
 
   return (
-    <div className="flex w-[100%] md:justify-center">
+    <div className="flex w-[100%] flex-col md:flex-row md:justify-center">
       <div className="flex flex-col bg-white px-5 py-4 h-[100%] gap-6 md:w-[400px]">
         <div className="font-bold text-4xl py-3">Profile</div>
         {edit ? (
-          <Form
-            className="flex flex-col h-full gap-8 text-2xl"
-            onSubmit={formHandler}
-            action={""}
-          >
-            <fieldset className=" px-0 py-0 mx-0">
-              <label className="text-2xl" htmlFor="firstName">
-                Nombre/s
-              </label>
-              <input
-                className="h-16 w-full border-solid border-black border-4 rounded-lg"
-                type="text"
-                name="firstName"
-              />
-            </fieldset>
-            <fieldset className=" px-0 py-0 mx-0">
-              <label className="text-2xl" htmlFor="lastName">
-                Apellido/s
-              </label>
-              <input
-                className="h-16 w-full border-solid border-black border-4 rounded-lg"
-                type="text"
-                name="lastName"
-              />
-            </fieldset>
-            <fieldset className=" px-0 py-0 mx-0">
-              <label className="text-2xl" htmlFor="userAge">
-                Edad
-              </label>
-              <input
-                className="h-16 w-full border-solid border-black border-4 rounded-lg"
-                type="number"
-                name="userAge"
-              />
-            </fieldset>
-            <fieldset className=" px-0 py-0 mx-0">
-              <label className="text-2xl" htmlFor="address">
-                Dirección
-              </label>
-              <input
-                className="h-16 w-full border-solid border-black border-4 rounded-lg"
-                type="text"
-                name="address"
-              />
-            </fieldset>
-            <fieldset className=" px-0 py-0 mx-0">
-              <label className="text-2xl" htmlFor="tel">
-                Teléfono{" "}
-              </label>
-              <input
-                type="tel"
-                className="h-16 w-full border-solid border-black border-4 rounded-lg"
-                name="tel"
-              />
-            </fieldset>
-            <button
-              className="flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
-              type="submit"
-            >
-              Guardar
-            </button>
-          </Form>
+          <EditForm handler={formHandler} />
         ) : (
-          <UserInfo user={data} setter={setEdit} />
+          <UserInfo setter={setEdit} />
         )}
         <div
           className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
@@ -137,6 +65,14 @@ export function Profile() {
         >
           Cancel
         </div>
+      </div>
+      <div className="flex flex-col bg-white px-5 py-4 h-[100%] gap-6 md:w-[400px] rounded-sm">
+        <div className="font-bold text-4xl py-3">Orders</div>
+        {order ? (
+          <OrderInfo orderInfo={orderId} />
+        ) : (
+          <UserOrders setter={setOrder} orderId={setOrderId} />
+        )}
       </div>
     </div>
   );

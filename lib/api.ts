@@ -1,10 +1,5 @@
-import { useEmail } from "./hooks";
-import { getEmail, retrieveToken, saveEmail, saveToken } from "./index";
-
+import { getEmail, retrieveToken, saveToken } from "./index";
 const API_URL = process.env.NEXT_PUBLIC_API_URL
-//   process.env.NODE_ENV !== "development"
-//     ? process.env.NEXT_PUBLIC_API_URL
-//     : "http://localhost:3001/api";
 
 export type userData = {
     firstName: string,
@@ -13,15 +8,15 @@ export type userData = {
     phoneNumber: number
 }
 
-
 export async function fetchAPI(param: RequestInfo, option: RequestInit) {
     const token = retrieveToken();
     const init: any = option || {};
     if (token) {
         init.headers ||= {};
-        init.headers.Authorization = "Bearer " + token;
-        init.headers["Content-type"] = "application/json";
+        init.headers.Authorization = "bearer " + token;
+        init.headers["Content-Type"] = "application/json";
     }
+    console.log(param, init)
     const res = await fetch((API_URL as string) + param, init);
 
     if (res.status >= 200 && res.status < 300) try {
@@ -34,10 +29,8 @@ export async function fetchAPI(param: RequestInfo, option: RequestInit) {
         };
     }
 }
-
-export async function validateEmail(email: string) {
-    console.log({ email });
-    saveEmail(email);
+export async function validateEmail(userEmail: string) {
+    const email = userEmail
     return await fetchAPI("auth", {
         method: "POST",
         mode: "cors",
@@ -49,11 +42,8 @@ export async function validateEmail(email: string) {
         console.error(e);
     });
 }
-
 export async function getToken(code: number) {
     const email = getEmail();
-    console.log(email, code, "from getToken");
-
     const data = await fetchAPI("auth/token", {
         method: "POST",
         mode: "cors",
@@ -62,57 +52,58 @@ export async function getToken(code: number) {
         },
         body: JSON.stringify({ email, code }),
     });
-    console.log(data);
     saveToken(data.token);
     return data;
 }
-
 export async function getUser() {
     return await fetchAPI("me", {
         method: "GET",
         mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
     });
 }
 export async function updateUser(additionalUserData: userData) {
     return await fetchAPI("me", {
         method: "PATCH",
         mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
         body: JSON.stringify({ additionalUserData }),
     });
 }
-
 export async function updateAddress(address: string) {
     return await fetchAPI("me/address", {
         method: "PATCH",
         mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
         body: JSON.stringify({ address }),
     });
 }
-
-export async function useBuyProduct(id: string) {
+export async function getAddress() {
     const token = retrieveToken()
-    const init: any = {};
     if (token) {
-        init.headers ||= {};
-        init.headers.Authorization = "Bearer " + token;
-        init.headers["Content-type"] = "application/json";
-        init.method = "POST";
-        init.mode = "cors";
-        const res = await fetchAPI("order/?productId=" + id, init)
+        const user = getUser()
+        console.log(user)
+    }
+}
+export async function useBuyProduct(id: string) {
+    console.log("use buy product")
+    const token = retrieveToken()
+    if (token) {
+        const res = await fetchAPI("order", {
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify({ productId: id })
+        })
         return res
     } else { return { message: "Token Not Found" } }
 }
-
-
+export async function getOrders() {
+    const token = retrieveToken()
+    if (token) {
+        const res = await fetchAPI("me/orders", {
+            method: "GET",
+            mode: "cors",
+        })
+        return res
+    } else { return { message: "Token Not Found" } }
+}
 // export async function generateOrder(
 //   address: string,
 //   products: shoppingCartItem[]

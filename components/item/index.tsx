@@ -1,5 +1,5 @@
 import { getProductbyId } from "@/lib";
-import { useBuyProduct } from "@/lib/api";
+import { useBuyProductFunc } from "@/lib/hooks";
 import { Body } from "@/ui/typography/inter";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,8 +19,9 @@ export function Item(props: any) {
     }
   });
   const handleBuy = async () => {
+    console.log("handleBuy");
     const id = param.itemId as string;
-    const res = await useBuyProduct(id);
+    const res = await useBuyProductFunc(id);
     console.log(res);
     if (res.message == "Token Not Found") {
       return <div>You must Log In first</div>;
@@ -35,7 +36,7 @@ export function Item(props: any) {
       const img = prod.Images[0].url;
       return (
         <div className="text-4xl grid grid-cols-1 md:grid-cols-2 px-5 py-6 font-bold gap-7">
-          <img className="w-[100%]" src={img} alt="item" />
+          <img className="max-h-[80vh]" src={img} alt="item" />
           <div className="grid gap-6">
             <h2 className="font-bold text-[42px]">{prod.Name}</h2>
             <div className="font-bold text-[42px]">${prod.Unit_cost}</div>

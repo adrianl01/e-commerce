@@ -1,7 +1,7 @@
 import { CloseMenuButton, MenuButton } from "@/ui/buttons";
 import Link from "next/link";
 import { useEmail } from "@/lib/hooks";
-import { logout } from "@/lib";
+import { logout, retrieveToken } from "@/lib";
 import { useRouter } from "next/navigation";
 
 export function Menu() {
@@ -11,7 +11,7 @@ export function Menu() {
     const menu = document.getElementById("menu");
     menu!.style.display = "none";
   };
-  const email = useEmail();
+  const token = retrieveToken();
 
   function ShowEmail(props: any) {
     return <div className="text-[23px]">{props.emailProp}</div>;
@@ -23,28 +23,32 @@ export function Menu() {
         <CloseMenuButton handler={closeMenuHandler} />
       </div>
       <div className="MenuButtonBox">
-        <Link href={"/signin"}>
-          <MenuButton>Log In</MenuButton>
-        </Link>
-        {email ? (
+        {token ? (
+          <></>
+        ) : (
+          <Link href={"/signin"}>
+            <MenuButton>Log In</MenuButton>
+          </Link>
+        )}
+        {token ? (
           <Link href={"/profile"}>
             <MenuButton>My Profile</MenuButton>
           </Link>
         ) : (
-          <div></div>
+          <></>
         )}
         <Link href={"/search"}>
           <MenuButton>Search</MenuButton>
         </Link>
       </div>
-      <ShowEmail emailProp={email} />
+      <ShowEmail emailProp={token} />
 
-      {email ? (
+      {token ? (
         <button
           className="bg-black border-none text-[20px] font-normal text-center text-red-600"
           onClick={() => {
             logout();
-            router.refresh();
+            router.replace("/");
           }}
         >
           Log Out
