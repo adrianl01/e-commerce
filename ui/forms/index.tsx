@@ -1,11 +1,25 @@
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchButton2 } from "../buttons";
-import { FormDiv, InputBody2, InputSignUp, SignUpFormLabel } from "./style";
-import Form from "next/form";
+import { AnimatedButton, SearchButton2 } from "../buttons";
+import {
+  FormDiv,
+  InputBody2,
+  InputSignUp,
+  SignUpFormLabel,
+} from "../inputs/index";
 import { getToken, validateEmail } from "@/lib/api";
 import { saveEmail } from "@/lib";
+type HomeFormProps = {
+  className?: string;
+  classInput?: string;
+  classButton?: string;
+};
 
-export function HomeForm(props: any) {
+export function HomeForm({
+  className,
+  classButton,
+  classInput,
+}: HomeFormProps) {
   const router = useRouter();
   const handlerHomeForm = (e: any) => {
     e.preventDefault();
@@ -17,20 +31,25 @@ export function HomeForm(props: any) {
     }
   };
   return (
-    <Form className={props.class} action="" onSubmit={handlerHomeForm}>
+    <form className={className} action="" onSubmit={handlerHomeForm}>
       <input
-        className={props.classInput}
+        className={classInput}
         name="query"
         placeholder="Find your product"
       />
-      <button className={props.classButton} type="submit">
-        Search
-      </button>
-    </Form>
+      <AnimatedButton type="submit" buttonText="Search" />
+    </form>
   );
 }
-export function SearchForm() {
+
+type FormProps = {
+  className?: string;
+};
+export function SearchForm({ className }: FormProps) {
   const router = useRouter();
+  const formClass =
+    "flex flex-col w-full p-3 gap-4 bg-black pt-0 md:hidden" +
+    (className ? ` ${className}` : "");
   const handlerSearchForm = (e: any) => {
     e.preventDefault();
     const q = e.target.query.value;
@@ -41,44 +60,64 @@ export function SearchForm() {
     }
   };
   return (
-    <Form className="homeFormDiv2" action="" onSubmit={handlerSearchForm}>
+    <form className={formClass} action="" onSubmit={handlerSearchForm}>
       <InputBody2 name="query" placeholder="Click here to search" />
       <SearchButton2 type="submit">Search</SearchButton2>
-    </Form>
-  );
-}
-export function SignUpForm(props: any) {
-  const setData = props.setter;
-  const SignUpHandler = (e: any) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    console.log(email);
-    const res = validateEmail(email);
-    res.then((r) => {
-      console.log(r);
-      if (r) {
-        saveEmail(email);
-        setData(true);
-      }
-    });
-  };
-  return (
-    <Form className="signUpFormDiv" action="" onSubmit={SignUpHandler}>
-      <SignUpFormLabel>Email</SignUpFormLabel>
-      <InputSignUp name="email" />
-      <button
-        className="bg-[#d14e6d] rounded-lg py-1 text-black w-[100%]"
-        type="submit"
-      >
-        Continue
-      </button>{" "}
-    </Form>
+    </form>
   );
 }
 
-export function SignUpCodeForm(prop: any) {
+type SignUpFormProps = { setter: (data: any) => void };
+export function SignUpForm({ setter }: SignUpFormProps) {
+  const setData = setter;
+  const [error, setError] = useState(""); // <-- Add error state
+
+  const SignUpHandler = (e: any) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    if (email === "") {
+      setError("Email cannot be empty"); // <-- Set error message
+      return;
+    }
+    if (email.includes(" ")) {
+      setError("Email cannot contain spaces"); // <-- Set error message
+      return;
+    }
+    if (!email.includes("@")) {
+      setError("Email must contain '@'"); // <-- Set error message
+      return;
+    }
+    setError(""); // <-- Clear error if not empty
+    const res = validateEmail(email);
+    res.then((r) => {
+      if (r) {
+        console.log(r);
+        saveEmail(email);
+        setData("ready");
+      }
+    });
+  };
+
+  return (
+    <form
+      className="flex flex-col max-w-[450px] gap-[15px]"
+      action=""
+      onSubmit={SignUpHandler}
+    >
+      <SignUpFormLabel>Email</SignUpFormLabel>
+      <InputSignUp name="email" />
+      {error && (
+        <div className="text-red-500 text-[18px] font-semibold">{error}</div>
+      )}
+      <AnimatedButton type="submit" buttonText="Sign Up" />
+    </form>
+  );
+}
+
+export function SignUpCodeForm() {
   const router = useRouter();
   const SignUpCodeHandler = (e: any) => {
+    e.preventDefault();
     const code = e.target.code.value;
     const res = getToken(code);
     res.then((r) => {
@@ -87,15 +126,10 @@ export function SignUpCodeForm(prop: any) {
     });
   };
   return (
-    <Form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>
+    <form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>
       <InputSignUp name="code" />
-      <FormDiv>We sent you a code via email</FormDiv>
-      <button
-        className="bg-[#d14e6d] rounded-lg py-1 text-black w-[100%]"
-        type="submit"
-      >
-        Sign In
-      </button>{" "}
-    </Form>
+      <FormDiv>We've sent you a code via email</FormDiv>
+      <AnimatedButton type="submit" buttonText="Sign In" />
+    </form>
   );
 }

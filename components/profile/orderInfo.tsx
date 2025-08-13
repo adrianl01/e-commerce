@@ -16,9 +16,7 @@ export function OrderInfo(props: any) {
     let userOrders = [];
     userOrders = props.order;
     console.log(userOrders);
-    if (userOrders.length === 0) {
-      return <></>;
-    } else {
+    if (userOrders.length > 0) {
       return (
         <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
           <div className="font-bold ">{userOrders}</div>
@@ -28,8 +26,14 @@ export function OrderInfo(props: any) {
     }
   }
   return (
-    <div className="flex flex-col justify-between h-[100%] gap-6">
-      <OrderInfoComp order={userOrders} />
+    <div>
+      {userOrders ? (
+        <div className="flex flex-col justify-between h-[100%] gap-6">
+          <OrderInfoComp order={userOrders} />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

@@ -3,9 +3,6 @@ import { userData } from "@/lib/api";
 import { useState } from "react";
 import { UserInfo } from "./userInfo";
 import { useRouter } from "next/navigation";
-import { UserOrders } from "./userOrders";
-import { getOrder } from "@/lib/hooks";
-import { OrderInfo } from "./orderInfo";
 import { EditForm } from "./editUserForm";
 export type userInfo = {
   additionalUserData: {
@@ -18,11 +15,8 @@ export type userInfo = {
 };
 export function Profile() {
   const r = useRouter();
-  const [orderId, setOrderId] = useState("");
-  const [orderInfo, setOrderInfo] = useState("");
 
   const [edit, setEdit] = useState(false);
-  const [order, setOrder] = useState(false);
   const formHandler = (e: any) => {
     e.preventDefault();
     const firstName = e.target.firstName.value;
@@ -59,20 +53,12 @@ export function Profile() {
         ) : (
           <UserInfo setter={setEdit} />
         )}
-        <div
+        {/* <div
           className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
           onClick={handleCancel}
         >
           Cancel
-        </div>
-      </div>
-      <div className="flex flex-col bg-white px-5 py-4 h-[100%] gap-6 md:w-[400px] rounded-sm">
-        <div className="font-bold text-4xl py-3">Orders</div>
-        {order ? (
-          <OrderInfo orderInfo={orderId} />
-        ) : (
-          <UserOrders setter={setOrder} orderId={setOrderId} />
-        )}
+        </div> */}
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
-import { BurgerButton, SearchButton2 } from "@/ui/buttons";
-import { Menu } from "./menu";
+import { useState } from "react";
+import { BurgerButton } from "@/ui/buttons";
+import { Menu } from "./comps/menu";
 import { BuyItLogo } from "@/imgs";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { InputBody2 } from "@/ui/forms/style";
-import Form from "next/form";
+import { usePathname } from "next/navigation";
 import { useEmail } from "@/lib/hooks";
+import { HeaderButton } from "./comps/buttons";
+import { SearchHeaderForm } from "./comps/form";
+import { OptionsComp } from "./comps/menu/details";
 
 export function Header() {
   const path = usePathname();
@@ -26,58 +28,13 @@ export function Header() {
     }
   }
 
-  function SearchHeaderForm(prop: any) {
-    const isSearch = prop.conditional;
-    const router = useRouter();
-    const handlerSearchForm = (e: any) => {
-      e.preventDefault();
-      const q = e.target.query.value;
-      if (q === "") {
-        throw console.log({ message: "search vacío" });
-      } else {
-        router.push("/search?query=" + q + "&offset=0");
-      }
-    };
-    return isSearch ? (
-      <Form
-        className="invisible w-[0px] h-0 md:visible md:h-[40px] md:flex md:gap-2 md:items-center md:w-[570px]"
-        action=""
-        onSubmit={handlerSearchForm}
-      >
-        <InputBody2
-          className="w-[75%]"
-          name="query"
-          placeholder="Click here to search"
-        />
-        <SearchButton2 type="submit">Search</SearchButton2>
-      </Form>
-    ) : (
-      <></>
-    );
-  }
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handlerOpenMenu = (e: any) => {
     e.preventDefault();
-    const menu = document.getElementById("menu");
-    menu!.style.display = "flex";
+    setMenuOpen(true);
   };
 
-  function LogInButton(props: any) {
-    return (
-      <button className={props.classButton}>
-        {" "}
-        <Link href={"/signin"}>Log In</Link>
-      </button>
-    );
-  }
-  function ProfileButton(props: any) {
-    return (
-      <button className={props.classButton}>
-        {" "}
-        <Link href={"/profile"}>Profile</Link>
-      </button>
-    );
-  }
   return (
     <div className="bg-black md:pb-5 flex justify-between gap-3 py-5 px-5 items-center">
       <Link href={"/"}>
@@ -85,22 +42,19 @@ export function Header() {
       </Link>
       <SearchHeaderForm conditional={isSearch} />
       {email ? (
-        <ProfileButton
-          classButton={
-            "invisible w-0 h-0 md:w-[80px] md:h-[40px] md:visible bg-red-700 rounded-lg text-[white] px-4"
-          }
-        />
+        <div className="hidden gap-2 items-center md:[display:flex!important]">
+          <OptionsComp />
+          <HeaderButton text="Profile" link="/profile" />
+        </div>
       ) : (
-        <LogInButton
-          classButton={
-            "invisible md:visible bg-red-700 rounded-lg text-[white] px-4 h-[40px]"
-          }
-        />
+        <HeaderButton text="Login" link="/login" />
       )}
       <BurgerButton classButton={"block md:hidden"} handler={handlerOpenMenu} />
-      <div className="divMenu" id="menu">
-        <Menu />
-      </div>
+      {menuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <Menu closeMenu={setMenuOpen} />
+        </div>
+      )}
     </div>
   );
 }

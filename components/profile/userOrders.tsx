@@ -1,8 +1,10 @@
 import { getOrders } from "@/lib/api";
-import { saveOrders, useGetUserOrders } from "@/lib/hooks";
+import { saveOrders } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function UserOrders(props: any) {
+export function UserOrders() {
+  const router = useRouter();
   const orders = getOrders();
   const [userOrders, setUserOrders] = useState("");
   useEffect(() => {
@@ -11,9 +13,6 @@ export function UserOrders(props: any) {
       saveOrders(e);
     });
   }, []);
-
-  const setOrder = props.setter;
-  const setOrderId = props.orderId;
 
   function UserOrdersComp(props: any) {
     let array = [];
@@ -27,7 +26,9 @@ export function UserOrders(props: any) {
               <button
                 key={e.orderId}
                 className="pl-2 bg-red-100 hover:bg-red-400 rounded-lg border-solid border-black border-[5px]"
-                onClick={orderHandler}
+                onClick={() => {
+                  router.push("profile/orders/" + e.orderId);
+                }}
               >
                 <div className="font-bold ">{e.additionalInfo.title}</div>
                 <h3 id={e.orderId} className="text-3xl">
@@ -43,13 +44,13 @@ export function UserOrders(props: any) {
     );
   }
 
-  const orderHandler = (e: any) => {
-    e.preventDefault();
-    const t = e.target as HTMLElement;
-    console.log(t.id);
-    setOrderId(t.id);
-    // setOrder(true);
-  };
+  // const orderHandler = async (e: any) => {
+  //   e.preventDefault();
+  //   const t = e.target as HTMLElement;
+  //   console.log(t);
+  //   console.log(t.id);
+
+  // };
   return (
     <div className="flex flex-col justify-between h-[100%] gap-6">
       <UserOrdersComp orders={userOrders} />

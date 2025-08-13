@@ -4,14 +4,14 @@ import { useEmail } from "@/lib/hooks";
 import { logout, retrieveToken } from "@/lib";
 import { useRouter } from "next/navigation";
 
-export function Menu() {
+export function Menu(props: any) {
   const router = useRouter();
   const closeMenuHandler = (e: any) => {
     e.preventDefault();
-    const menu = document.getElementById("menu");
-    menu!.style.display = "none";
+    props.closeMenu(false);
   };
   const token = retrieveToken();
+  const email = useEmail();
 
   function ShowEmail(props: any) {
     return <div className="text-[23px]">{props.emailProp}</div>;
@@ -26,7 +26,7 @@ export function Menu() {
         {token ? (
           <></>
         ) : (
-          <Link href={"/signin"}>
+          <Link href={"/login"}>
             <MenuButton>Log In</MenuButton>
           </Link>
         )}
@@ -41,14 +41,14 @@ export function Menu() {
           <MenuButton>Search</MenuButton>
         </Link>
       </div>
-      <ShowEmail emailProp={token} />
+      <ShowEmail emailProp={email} />
 
       {token ? (
         <button
           className="bg-black border-none text-[20px] font-normal text-center text-red-600"
           onClick={() => {
             logout();
-            router.replace("/");
+            router.push("/");
           }}
         >
           Log Out

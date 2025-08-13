@@ -2,10 +2,21 @@ import { FooterButton } from "@/ui/buttons";
 import { InstaLogo, XLogo } from "@/imgs";
 import Link from "next/link";
 import { useEmail } from "@/lib/hooks";
-
+import { logout } from "@/lib";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 export function Footer() {
+  const router = useRouter();
+  const loc = usePathname();
+  console.log("Footer location", loc);
   const handlerLogOut = (e: any) => {
     e.preventDefault();
+    logout();
+    if (loc === "/") {
+      router.refresh();
+    } else {
+      router.push("/");
+    }
   };
   const handlerInsta = (e: any) => {
     e.preventDefault();
@@ -20,7 +31,7 @@ export function Footer() {
         <div className="w-[350px] flex flex-col gap-4">
           <div className="pb-3">
             {" "}
-            <Link href={"/signin"}>
+            <Link href={"/login"}>
               {" "}
               <FooterButton>Log In</FooterButton>
             </Link>
@@ -65,7 +76,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="pb-3 text-2xl font-normal"> ©2024 apx</div>
+      <div className="pb-3 text-2xl font-normal"> ©2024 AdrianL01</div>
     </div>
   );
 }

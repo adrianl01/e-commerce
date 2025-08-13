@@ -64,9 +64,9 @@ export function saveOrders(orders: []) {
 }
 
 export async function getOrder(orderId: string) {
-    const orders = localStorage.getItem("userOrders") as string
+    const orders = await localStorage.getItem("userOrders") as string
     const parsedOrders = JSON.parse(orders)
-    var result = parsedOrders.filter(function (order: any) {
+    var result = await parsedOrders.filter(function (order: any) {
         return order.orderId == orderId
     })
     return await result

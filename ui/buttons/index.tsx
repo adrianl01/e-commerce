@@ -1,10 +1,17 @@
 import { BurguerLogo, CloseLogo } from "@/imgs";
 import { styled } from "styled-components";
 
-const BaseHeaderButton = styled.button`
-  background-color: black;
-  border-style: none;
-`;
+function BaseHeaderButton(props: any) {
+  return (
+    <button
+      className={`bg-black border-none ${props.className ?? ""}`}
+      onClick={props.onClick}
+      type={props.type ?? "button"}
+    >
+      {props.children}
+    </button>
+  );
+}
 export function BurgerButton(prop: any) {
   return (
     <BaseHeaderButton className={prop.classButton} onClick={prop.handler}>
@@ -13,20 +20,29 @@ export function BurgerButton(prop: any) {
   );
 }
 
-const BaseFooterButton = styled.button`
-  font-family: "Inter", "sans-serif";
-  color: white;
-  font-size: 25px;
-  font-weight: 400;
-  line-height: 19.36px;
-  text-align: left;
-  text-decoration-skip-ink: none;
-  background-color: black;
-  border-style: none;
-  align-items: center;
-  display: flex;
-  gap: 10px;
-`;
+function BaseFooterButton(props: any) {
+  return (
+    <button
+      className="font-inter
+  text-white
+  text-[25px]
+  font-normal
+  leading-[19.36px]
+  text-left
+  [text-decoration-skip-ink:none]
+  bg-black
+  border-none
+  flex
+  items-center
+  gap-[10px]"
+      onClick={props.onClick}
+      type={props.type ?? "button"}
+    >
+      {props.children}
+    </button>
+  );
+}
+
 export function FooterButton(prop: any) {
   return (
     <BaseFooterButton className="flex items-center" onClick={prop.handler}>
@@ -86,19 +102,37 @@ export function SearchButton(prop: any) {
   );
 }
 
-const SearchBtn2 = styled(SearchBtn)`
-  background-color: #d14e6d;
-  color: black;
-  width: 100%;
-  @media (min-width: 768px) {
-    width: 50%;
-  }
-  font-size: 25px;
-`;
-export function SearchButton2(prop: any) {
+export function SearchButton2(props: any) {
   return (
-    <SearchBtn2 type="submit" onClick={prop.handler}>
-      {prop.children}
-    </SearchBtn2>
+    <button
+      className="bg-[#d14e6d] text-black w-full md:w-1/2 text-[25px] rounded-lg border-none h-[37px]"
+      type="submit"
+      onClick={props.handler}
+    >
+      {props.children}
+    </button>
+  );
+}
+
+type AnimatedButtonProps = {
+  className?: string;
+  type?: "button" | "submit" | "reset";
+  buttonText?: string;
+};
+export function AnimatedButton({
+  type,
+  className,
+  buttonText,
+}: AnimatedButtonProps) {
+  return (
+    <button
+      className={
+        "w-full py-2 px-4 rounded-xl bg-gradient-to-r from-pink-400 via-pink-300 to-yellow-200 text-black font-bold shadow-lg transition duration-200 hover:scale-105 hover:from-pink-500 hover:to-yellow-300 focus:outline-none focus:ring-2 focus:ring-pink-300" +
+        (className ? ` ${className}` : "")
+      }
+      type={type ?? "submit"}
+    >
+      {buttonText}
+    </button>
   );
 }

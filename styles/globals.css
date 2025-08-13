@@ -14,14 +14,6 @@ body {
   justify-content: center;
 }
 
-img {}
-
-.homeFormDiv {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
 .homeFormDiv2 {
   display: flex;
   flex-direction: column;
@@ -31,18 +23,17 @@ img {}
   padding: 20px;
   padding-top: 0px;
 
-  @media (min-width:768px) {
+  /* @media (min-width:768px) {
     display: none;
-  }
+  } */
 }
 
 .signUpFormDiv {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 15px;
-
   @media (min-width:768px) {
     justify-content: center;
   }
+}
+
+.hidden {
+  display: none;
 }
