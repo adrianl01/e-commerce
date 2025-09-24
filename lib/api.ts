@@ -1,108 +1,112 @@
 import { getEmail, retrieveToken, saveToken } from "./index";
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export type userData = {
-    firstName: string,
-    lastName: string,
-    userAge: number,
-    phoneNumber: number
-}
+  firstName: string;
+  lastName: string;
+  userAge: number;
+  phoneNumber: number;
+};
 
 export async function fetchAPI(param: RequestInfo, option: RequestInit) {
-    const token = retrieveToken();
-    const init: any = option || {};
-    if (token) {
-        init.headers ||= {};
-        init.headers.Authorization = "bearer " + token;
-        init.headers["Content-Type"] = "application/json";
-    }
-    console.log(param, init)
-    const res = await fetch((API_URL as string) + param, init);
+  const token = retrieveToken();
+  const init: any = option || {};
+  if (token) {
+    init.headers ||= {};
+    init.headers.Authorization = "bearer " + token;
+    init.headers["Content-Type"] = "application/json";
+  }
+  const res = await fetch((API_URL as string) + param, init);
 
-    if (res.status >= 200 && res.status < 300) try {
-        return res.json();
+  if (res.status >= 200 && res.status < 300)
+    try {
+      return res.json();
     } catch (e) {
-        console.log(e)
-        throw {
-            message: "An error has ocurred",
-            status: res.status,
-        };
+      console.log(e);
+      throw {
+        message: "An error has ocurred",
+        status: res.status,
+      };
     }
 }
 export async function validateEmail(userEmail: string) {
-    const email = userEmail
-    return await fetchAPI("auth", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-    }).catch((e) => {
-        console.error(e);
-    });
+  const email = userEmail;
+  return await fetchAPI("auth", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  }).catch((e) => {
+    console.error(e);
+  });
 }
 export async function getToken(code: number) {
-    const email = getEmail();
-    const data = await fetchAPI("auth/token", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: JSON.stringify({ email, code }),
-    });
-    saveToken(data.token);
-    return data;
+  const email = getEmail();
+  const data = await fetchAPI("auth/token", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ email, code }),
+  });
+  saveToken(data.token);
+  return data;
 }
 export async function getUser() {
-    return await fetchAPI("me", {
-        method: "GET",
-        mode: "cors",
-    });
+  return await fetchAPI("me", {
+    method: "GET",
+    mode: "cors",
+  });
 }
 export async function updateUser(additionalUserData: userData) {
-    return await fetchAPI("me", {
-        method: "PATCH",
-        mode: "cors",
-        body: JSON.stringify({ additionalUserData }),
-    });
+  return await fetchAPI("me", {
+    method: "PATCH",
+    mode: "cors",
+    body: JSON.stringify({ additionalUserData }),
+  });
 }
 export async function updateAddress(address: string) {
-    return await fetchAPI("me/address", {
-        method: "PATCH",
-        mode: "cors",
-        body: JSON.stringify({ address }),
-    });
+  return await fetchAPI("me/address", {
+    method: "PATCH",
+    mode: "cors",
+    body: JSON.stringify({ address }),
+  });
 }
 export async function getAddress() {
-    const token = retrieveToken()
-    if (token) {
-        const user = getUser()
-        console.log(user)
-    }
+  const token = retrieveToken();
+  if (token) {
+    const user = getUser();
+    console.log(user);
+  }
 }
 export async function useBuyProduct(id: string) {
-    console.log("use buy product")
-    const token = retrieveToken()
-    if (token) {
-        const res = await fetchAPI("order", {
-            method: "POST",
-            mode: "cors",
-            body: JSON.stringify({ productId: id })
-        })
-        return res
-    } else { return { message: "Token Not Found" } }
+  console.log("use buy product");
+  const token = retrieveToken();
+  if (token) {
+    const res = await fetchAPI("order", {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({ productId: id }),
+    });
+    return res;
+  } else {
+    return { message: "Token Not Found" };
+  }
 }
 export async function getOrders() {
-    const token = retrieveToken()
-    if (token) {
-        const res = await fetchAPI("me/orders", {
-            method: "GET",
-            mode: "cors",
-        })
-        return res
-    } else { return { message: "Token Not Found" } }
+  const token = retrieveToken();
+  if (token) {
+    const res = await fetchAPI("me/orders", {
+      method: "GET",
+      mode: "cors",
+    });
+    return res;
+  } else {
+    return { message: "Token Not Found" };
+  }
 }
 // export async function generateOrder(
 //   address: string,
