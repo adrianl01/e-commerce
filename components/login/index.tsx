@@ -1,10 +1,11 @@
 import { SignUp, SignUpCode } from "./forms";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { retrieveToken } from "@/lib";
 
 export function LogIn() {
   const [data, setData] = useState(null);
-  const token = localStorage.getItem("token");
+  const token = retrieveToken();
   useEffect(() => {
     console.log("useEffect SignIn", data);
   }, [data]);
