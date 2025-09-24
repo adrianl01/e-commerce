@@ -6,17 +6,17 @@ import insta from "./insta.png";
 import x from "./x.png";
 
 export function BuyItLogo() {
-  return <Image alt="compralo" src={buyIt} width={150} />;
+  return <Image alt="compralo" title="compralo" src={buyIt} width={150} />;
 }
 export function BurguerLogo() {
-  return <Image alt="burguer" src={burguer} />;
+  return <Image alt="burguer" title="burguer" src={burguer} />;
 }
 export function CloseLogo() {
-  return <Image alt="close" src={close} width={40} height={40} />;
+  return <Image alt="close" title="close" src={close} width={40} height={40} />;
 }
 export function InstaLogo() {
-  return <Image alt="insta" src={insta} />;
+  return <Image alt="insta" title="insta" src={insta} />;
 }
 export function XLogo() {
-  return <Image alt="x" src={x} />;
+  return <Image alt="x" title="xLogo" src={x} />;
 }

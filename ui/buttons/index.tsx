@@ -1,6 +1,4 @@
 import { BurguerLogo, CloseLogo } from "@/imgs";
-import { styled } from "styled-components";
-
 function BaseHeaderButton(props: any) {
   return (
     <button
@@ -51,18 +49,6 @@ export function FooterButton(prop: any) {
   );
 }
 
-const BaseMenuButton = styled.button`
-  font-family: "Inter", "sans-serif";
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 38.73px;
-  text-align: center;
-  background-color: black;
-  color: white;
-  border-style: none;
-  padding-bottom: 55px;
-`;
-
 export function MenuButton(prop: any) {
   return (
     <button
@@ -84,16 +70,6 @@ export function CloseMenuButton(prop: any) {
   );
 }
 
-const SearchBtn = styled.button`
-  background-color: #4f7cac;
-  color: white;
-  width: 100%;
-  height: 37px;
-  border-radius: 8px;
-  border-style: none;
-  font-size: 25px;
-`;
-
 export function SearchButton(prop: any) {
   return (
     <button className={prop.class} type="submit" onClick={prop.handler}>
@@ -105,7 +81,7 @@ export function SearchButton(prop: any) {
 export function SearchButton2(props: any) {
   return (
     <button
-      className="bg-[#d14e6d] text-black w-full md:w-1/2 text-[25px] rounded-lg border-none h-[37px]"
+      className="bg-red-400 text-black w-full md:w-1/2 text-[25px] rounded-lg border-none h-[37px] hover:bg-red-500 duration-200"
       type="submit"
       onClick={props.handler}
     >

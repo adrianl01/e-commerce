@@ -1,7 +1,7 @@
 import { SearchButton2 } from "@/ui/buttons";
 import { InputBody2 } from "@/ui/inputs";
 import { useRouter } from "next/router";
-import { Form } from "react-hook-form";
+import Form from "next/form";
 
 export function SearchHeaderForm(prop: any) {
   const isSearch = prop.conditional;
@@ -22,7 +22,7 @@ export function SearchHeaderForm(prop: any) {
       onSubmit={handlerSearchForm}
     >
       <InputBody2
-        className="w-[75%]"
+        className="w-[75%] h-[37px] rounded-lg text-center hover:border-red-400 focus:border-red-400 duration-200 outline-none"
         name="query"
         placeholder="Click here to search"
       />

@@ -6,8 +6,6 @@ import Link from "next/link";
 const offset = Math.floor(Math.random() * 17).toString();
 
 export function FeaturedProducts() {
-  // console.log("random offset", offset);
-
   const result = searchProducts("random", offset);
   const [data, setData] = useState("") as any;
   result.then((r) => {
@@ -23,7 +21,7 @@ export function FeaturedProducts() {
               <Link href={"/item/" + r.objectID} key={r.objectID}>
                 {" "}
                 <BoxProd
-                  mainDiv="flex flex-col bg-[#e75a7c] w-[328px] lg:min-w-[320px] lg:max-w-[350px] h-[322px] lg:h-[300px] border-solid border-black border-[4px] text-black justify-between"
+                  mainDiv="flex flex-col shadow-lg transition duration-200 hover:scale-105 bg-[#e75a7c] w-[328px] lg:min-w-[320px] lg:max-w-[350px] h-[322px] lg:h-[300px] border-solid border-black border-[4px] text-black focus:ring-2 justify-between"
                   title={r.Name}
                   price={r.Unit_cost}
                   img={r.Images[0].url}

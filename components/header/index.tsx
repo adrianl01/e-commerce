@@ -44,7 +44,6 @@ export function Header() {
       {email ? (
         <div className="hidden gap-2 items-center md:[display:flex!important]">
           <OptionsComp />
-          <HeaderButton text="Profile" link="/profile" />
         </div>
       ) : (
         <HeaderButton text="Login" link="/login" />

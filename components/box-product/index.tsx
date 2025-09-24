@@ -1,15 +1,22 @@
 import { BoxDiv, BoxTitlePriceDiv } from "./style";
 
-export function BoxProd(prop: any) {
+type BoxProdProps = {
+  mainDiv: string;
+  img: string;
+  title: string;
+  price: number;
+};
+
+export function BoxProd({ mainDiv, img, title, price }: BoxProdProps) {
   return (
-    <div className={prop.mainDiv}>
+    <div className={mainDiv}>
       <div className="flex justify-center w-full h-[70%]">
-        <img className="h-[100%]" src={prop.img} alt={prop.title} />
+        <img className="h-[100%]" src={img} alt={title} />
       </div>
 
       <BoxTitlePriceDiv>
-        <div>{prop.title}</div>
-        <div>${prop.price}</div>
+        <div>{title}</div>
+        <div>${price}</div>
       </BoxTitlePriceDiv>
     </div>
   );

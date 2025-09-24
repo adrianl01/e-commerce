@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 export default function ItemPage() {
   const router = useRouter();
+  console.log("routerItemPage", router.query);
   return (
     <Body>
       <Header />
