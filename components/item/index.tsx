@@ -30,22 +30,28 @@ export function Item(props: any) {
 
     if (error) return <div>There was an Error</div>;
 
-    if (data)
-      return (
-        <div className="text-4xl grid grid-cols-1 md:grid-cols-2 px-5 py-6 font-bold gap-7">
-          <img className="max-h-[80vh]" src={data.Images[0].url} alt="item" />
-          <div className="grid gap-6">
-            <h2 className="font-bold text-[42px]">{data.Name}</h2>
-            <div className="font-bold text-[42px]">${data.Unit_cost}</div>
-            <button className="h-[63px] px-3 bg-red-400" onClick={handleBuy}>
-              Buy
-            </button>
-            <p className="font-normal text-2xl">
-              Description:{" " + data.Description}
-            </p>
-          </div>
+    if (data) console.log(data);
+    return (
+      <div className="text-4xl flex flex-row px-5 py-6 font-bold gap-7">
+        <div className="flex-row max-w-[50%] gap-5 justify-center items-center">
+          <img
+            className="max-h-[250px] self-center"
+            src={data.Images[0].url}
+            alt="item"
+          />
+          <p className="font-normal text-[14px] max-w-[300px] leading-tight">
+            Description:{" " + data.Description}
+          </p>
         </div>
-      );
+        <div className="flex flex-col gap-5 items-end">
+          <h2 className="font-bold text-[42px]">{data.Name}</h2>
+          <div className="font-bold text-[42px]">${data.Unit_cost}</div>
+          <button className="h-[63px] px-3 bg-red-400" onClick={handleBuy}>
+            Buy
+          </button>
+        </div>
+      </div>
+    );
   }
   return (
     <Body>

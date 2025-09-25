@@ -7,13 +7,17 @@ export function OptionsComp() {
 
   return (
     <div
-      className="relative flex flex-col"
-      onMouseEnter={() => {
-        setOpen(true);
-        setTimeout(() => {
-          setOpen(false);
-        }, 3000); // Auto-close after 3 seconds
-      }}
+      className="flex flex-col relative"
+      onMouseEnter={() => setOpen(true)}
+      // onMouseLeave={() => {
+      //   setTimeout(() => {
+      //     setOpen(false);
+      //   }, 3000);
+      // }}
+      // onMouseEnter={() => {
+      //   setOpen(true);
+      //    // Auto-close after 3 seconds
+      // }}
     >
       <button
         ref={btnRef}
@@ -28,23 +32,25 @@ export function OptionsComp() {
         </span>
       </button>
       {open && (
-        <div className="absolute top-full mb-2 right-0 flex flex-col mt-2 w-56 bg-black border-solid border-white border-[2px] rounded-lg shadow-lg z-50">
-          <a
-            href="/profile/orders"
-            className="hover:bg-pink-400 text-white hover:text-black rounded px-2 py-1 transition"
-            onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
-          >
-            Your Orders
-          </a>
-          <a
-            href="/profile"
-            className="hover:bg-pink-400 text-white hover:text-black rounded px-2 py-1 transition"
-            onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
-          >
-            Your Profile
-          </a>
+        <div
+          className="absolute top-full mb-2 right-0 flex flex-col w-56 border-transparent bg-transparent z-50"
+          onMouseLeave={() => setOpen(false)}
+        >
+          <div className="flex flex-col  p-2 gap-2 mt-2 border-solid border-white border-[2px] rounded-lg bg-black">
+            <a
+              href="/profile/orders"
+              className="hover:bg-pink-400 text-white hover:text-black rounded px-2 py-1 transition"
+            >
+              Your Orders
+            </a>
+            <a
+              href="/profile"
+              className="hover:bg-pink-400 text-white hover:text-black rounded px-2 py-1 transition"
+              onMouseEnter={() => setOpen(true)}
+            >
+              Your Profile
+            </a>
+          </div>
         </div>
       )}
     </div>
