@@ -9,15 +9,6 @@ export function OptionsComp() {
     <div
       className="flex flex-col relative"
       onMouseEnter={() => setOpen(true)}
-      // onMouseLeave={() => {
-      //   setTimeout(() => {
-      //     setOpen(false);
-      //   }, 3000);
-      // }}
-      // onMouseEnter={() => {
-      //   setOpen(true);
-      //    // Auto-close after 3 seconds
-      // }}
     >
       <button
         ref={btnRef}

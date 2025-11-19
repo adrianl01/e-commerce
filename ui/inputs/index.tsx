@@ -26,7 +26,7 @@ export function InputSignUp(props: any) {
 }
 
 export function SignUpFormLabel(props: any) {
-  return <label className="text-white text-[25px] text-start" {...props} />;
+  return <label className="text-[20px] text-start" {...props} />;
 }
 
 export function FormDiv(props: any) {

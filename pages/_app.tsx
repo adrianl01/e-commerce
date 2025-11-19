@@ -2,6 +2,9 @@ import Head from "next/head";
 import type { AppProps } from "next/app";
 import "@/styles/globals.css";
 import "@/components/header/style.css";
+import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+import store from "../app/store";
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -13,7 +16,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           charSet="utf-8"
         />
       </Head>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <SessionProvider session={pageProps.session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </Provider>
     </>
   );
 }

@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.9.0",
     "framer-motion": "^12.23.11",
     "next": "15.0.3",
+    "next-auth": "^4.24.11",
     "next-svgr": "^0.0.2",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-hook-form": "^7.53.2",
+    "react-redux": "^9.2.0",
     "styled-components": "^6.1.13",
     "swr": "^2.2.5"
   },

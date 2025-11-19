@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-type HeaderButtonProps = {
+interface HeaderButtonProps {
   className?: string;
   text?: string;
   link: string;
-};
+}
 
 export function HeaderButton({ className, text, link }: HeaderButtonProps) {
   return (

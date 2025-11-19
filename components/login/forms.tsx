@@ -1,8 +1,12 @@
 import { SignUpCodeForm, SignUpForm } from "@/ui/forms";
+import { useSession } from "next-auth/react";
 const classDiv =
   "flex flex-col bg-grey border-black justify-center p-5 md:w-[350px] rounded-lg shadow-lg";
 const classH4 = "text-black text-4xl text-left font-bold";
 export function SignUp(props: { setter: (data: any) => void }) {
+  const { data: session } = useSession();
+  console.log("session", session);
+
   const setData = props.setter;
   return (
     <div className={classDiv}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import { BurgerButton } from "@/ui/buttons";
 import { Menu } from "./comps/menu";
 import { BuyItLogo } from "@/imgs";
@@ -30,7 +30,9 @@ export function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const handlerOpenMenu = (e: any) => {
+  type MenuOpenHandler = MouseEventHandler<HTMLButtonElement>;
+
+  const handlerOpenMenu: MenuOpenHandler = (e) => {
     e.preventDefault();
     setMenuOpen(true);
   };
@@ -48,7 +50,7 @@ export function Header() {
       ) : (
         <HeaderButton text="Login" link="/login" />
       )}
-      <BurgerButton classButton={"block md:hidden"} handler={handlerOpenMenu} />
+      <BurgerButton className={"block md:hidden"} handler={handlerOpenMenu} />
       {menuOpen && (
         <div className="fixed inset-0 z-50 flex">
           <Menu closeMenu={setMenuOpen} />

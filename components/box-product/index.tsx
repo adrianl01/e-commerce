@@ -1,11 +1,11 @@
 import { BoxDiv, BoxTitlePriceDiv } from "./style";
 
-type BoxProdProps = {
+interface BoxProdProps {
   mainDiv: string;
   img: string;
   title: string;
   price: number;
-};
+}
 
 export function BoxProd({ mainDiv, img, title, price }: BoxProdProps) {
   return (

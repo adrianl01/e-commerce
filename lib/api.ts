@@ -1,12 +1,12 @@
 import { getEmail, retrieveToken, saveToken } from "./index";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export type userData = {
+export interface userData {
   firstName: string;
   lastName: string;
   userAge: number;
   phoneNumber: number;
-};
+}
 
 export async function fetchAPI(param: RequestInfo, option: RequestInit) {
   const token = retrieveToken();
@@ -42,18 +42,41 @@ export async function validateEmail(userEmail: string) {
     console.error(e);
   });
 }
-export async function getToken(code: number) {
+
+type getTokenType = {
+  code?: number;
+  status?: string;
+};
+export async function getToken({ code, status }: getTokenType) {
   const email = getEmail();
-  const data = await fetchAPI("auth/token", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ email, code }),
-  });
-  saveToken(data.token);
-  return data;
+  console.log({ email, code, status });
+  if (!email) throw { message: "Email not found" };
+  if (!code) throw { message: "Code not found" };
+  if (status !== "authenticated") throw { message: "Status not Authenticated" };
+
+  if (email && code) {
+    const data = await fetchAPI("auth/token", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ email, code }),
+    });
+    saveToken(data.token);
+    return data;
+  } else if (email && status === "authenticated") {
+    const data = await fetchAPI("auth/token", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ email, status }),
+    });
+    saveToken(data.token);
+    return data;
+  }
 }
 export async function getUser() {
   return await fetchAPI("me", {

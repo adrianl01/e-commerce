@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatedButton, SearchButton2 } from "../buttons";
+import { signIn } from "next-auth/react";
 import {
   FormDiv,
   InputBody2,
@@ -9,11 +10,11 @@ import {
 } from "../inputs/index";
 import { getToken, validateEmail } from "@/lib/api";
 import { saveEmail } from "@/lib";
-type HomeFormProps = {
+interface HomeFormProps {
   className?: string;
   classInput?: string;
   classButton?: string;
-};
+}
 
 export function HomeForm({
   className,
@@ -42,9 +43,9 @@ export function HomeForm({
   );
 }
 
-type FormProps = {
+interface FormProps {
   className?: string;
-};
+}
 export function SearchForm({ className }: FormProps) {
   const router = useRouter();
   const formClass =
@@ -67,7 +68,9 @@ export function SearchForm({ className }: FormProps) {
   );
 }
 
-type SignUpFormProps = { setter: (data: any) => void };
+interface SignUpFormProps {
+  setter: (data: any) => void;
+}
 export function SignUpForm({ setter }: SignUpFormProps) {
   const setData = setter;
   const [error, setError] = useState(""); // <-- Add error state
@@ -99,18 +102,33 @@ export function SignUpForm({ setter }: SignUpFormProps) {
   };
 
   return (
-    <form
-      className="flex flex-col max-w-[450px] gap-[15px]"
-      action=""
-      onSubmit={SignUpHandler}
-    >
-      <SignUpFormLabel>Email</SignUpFormLabel>
-      <InputSignUp name="email" />
-      {error && (
-        <div className="text-red-500 text-[18px] font-semibold">{error}</div>
-      )}
-      <AnimatedButton type="submit" buttonText="Sign Up" />
-    </form>
+    <div className="flex flex-col items-center gap-4">
+      <form
+        className="flex flex-col max-w-[450px] gap-[10px]"
+        action=""
+        onSubmit={SignUpHandler}
+      >
+        <SignUpFormLabel>Email</SignUpFormLabel>
+        <InputSignUp name="email" />
+        {error && (
+          <div className="text-red-500 text-[18px] font-semibold">{error}</div>
+        )}
+        <AnimatedButton type="submit" buttonText="Continue" />
+      </form>
+      Or
+      <button
+        className="text-blue-500 underline"
+        type="button"
+        onClick={() =>
+          signIn("google", {
+            callbackUrl: "/",
+            prompt: "select_account", // 👈 fuerza selector de cuentas
+          })
+        }
+      >
+        Sign in with Google
+      </button>
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { UserInfo } from "./userInfo";
 import { useRouter } from "next/navigation";
 import { EditForm } from "./editUserForm";
-export type userInfo = {
+export interface userInfo {
   additionalUserData: {
     firstName: string;
     lastName: string;
@@ -12,7 +12,7 @@ export type userInfo = {
     phoneNumber: number;
   };
   address: string;
-};
+}
 export function Profile() {
   const r = useRouter();
 
