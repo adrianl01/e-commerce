@@ -10,8 +10,8 @@ export function ProdResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const goBack = router.back;
-  const query = searchParams.get("query") as any;
-  const offset = searchParams.get("offset") as any;
+  const query = searchParams?.get("query") ?? "";
+  const offset = searchParams?.get("offset") ?? "0";
   const newOffset = JSON.parse(offset) + 3;
   function BackButton(props: any) {
     if (props.offset > 0) {
