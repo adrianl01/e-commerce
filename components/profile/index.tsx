@@ -1,65 +1,61 @@
-import { updateAddress, updateUser } from "@/lib/api";
-import { userData } from "@/lib/api";
-import { useState } from "react";
-import { UserInfo } from "./userInfo";
-import { useRouter } from "next/navigation";
-import { EditForm } from "./editUserForm";
-export interface userInfo {
-  additionalUserData: {
-    firstName: string;
-    lastName: string;
-    userAge: number;
-    phoneNumber: number;
-  };
-  address: string;
-}
-export function Profile() {
-  const r = useRouter();
+"use client";
 
+import { useState } from "react";
+import { updateAddress, updateProfile } from "@/redux/slices/profileSlice";
+import { useAppDispatch } from "@/redux/store";
+import { EditForm } from "./editUserForm";
+import { UserInfo } from "./userInfo";
+import type { userData } from "@/lib/api";
+
+
+export function Profile() {
+  const dispatch = useAppDispatch();
   const [edit, setEdit] = useState(false);
-  const formHandler = (e: any) => {
+
+  const formHandler = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const firstName = e.target.firstName.value;
-    const lastName = e.target.lastName.value;
-    const address = e.target.address.value;
-    const userAge = e.target.userAge.value;
-    const phoneNumber = e.target.tel.value;
-    const additionalUserData = {
-      firstName,
-      lastName,
-      userAge,
-      phoneNumber,
+
+    const form = e.currentTarget;
+
+    const get = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement)?.value;
+
+    const additionalUserData: userData = {
+      firstName: get("firstName"),
+      lastName: get("lastName"),
+      userAge: Number(get("userAge")),
+      phoneNumber: Number(get("tel")),
+      address: get("address"),
     };
-    updateUser(additionalUserData as userData);
-    updateAddress(address);
+
+    dispatch(updateProfile(additionalUserData));
+    dispatch(updateAddress(get("address")));
+
     setEdit(false);
   };
 
-  const handleCancel = (e: any) => {
-    e.preventDefault();
-    if (edit) {
-      setEdit(false);
-    } else {
-      r.push("/");
-    }
-  };
-
   return (
-    <div className="flex w-[100%] flex-col md:flex-row md:justify-center">
-      <div className="flex flex-col bg-white px-5 py-4 h-[100%] gap-6 md:w-[400px]">
-        <div className="font-bold text-4xl py-3">Profile</div>
+    <section className="mx-auto min-h-[70vh] max-w-[960px] px-6 py-14">
+      <div className="rounded-2xl border border-[#D9CFC0] bg-white p-8">
+        <div className="mb-8">
+          <h1 className="text-[36px] font-medium text-[#3B2A1A]">
+            My profile
+          </h1>
+
+          <p className="mt-2 text-[15px] text-[#9A7E62]">
+            Manage your personal information.
+          </p>
+        </div>
+
         {edit ? (
-          <EditForm handler={formHandler} />
+          <EditForm
+            handler={formHandler}
+            cancel={() => setEdit(false)}
+          />
         ) : (
           <UserInfo setter={setEdit} />
         )}
-        {/* <div
-          className=" flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
-          onClick={handleCancel}
-        >
-          Cancel
-        </div> */}
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,69 +1,56 @@
-import Form from "next/form";
+"use client";
 
-export function EditForm(props: any) {
-  const formHandler = props.handler;
+interface Props {
+  handler: (e: React.SubmitEvent<HTMLFormElement>) => void;
+  cancel: () => void;
+}
+
+export function EditForm({ handler, cancel }: Props) {
   return (
-    <Form
-      className="flex flex-col h-full gap-8 text-2xl"
-      onSubmit={formHandler}
-      action={""}
+    <form
+      onSubmit={handler}
+      className="flex flex-col gap-6"
     >
-      <fieldset className=" px-0 py-0 mx-0">
-        <label className="text-2xl" htmlFor="firstName">
-          Nombre/s
-        </label>
-        <input
-          className="h-16 w-full border-solid border-black border-4 rounded-lg"
-          type="text"
-          name="firstName"
-        />
-      </fieldset>
-      <fieldset className=" px-0 py-0 mx-0">
-        <label className="text-2xl" htmlFor="lastName">
-          Apellido/s
-        </label>
-        <input
-          className="h-16 w-full border-solid border-black border-4 rounded-lg"
-          type="text"
-          name="lastName"
-        />
-      </fieldset>
-      <fieldset className=" px-0 py-0 mx-0">
-        <label className="text-2xl" htmlFor="userAge">
-          Edad
-        </label>
-        <input
-          className="h-16 w-full border-solid border-black border-4 rounded-lg"
-          type="number"
-          name="userAge"
-        />
-      </fieldset>
-      <fieldset className=" px-0 py-0 mx-0">
-        <label className="text-2xl" htmlFor="address">
-          Dirección
-        </label>
-        <input
-          className="h-16 w-full border-solid border-black border-4 rounded-lg"
-          type="text"
-          name="address"
-        />
-      </fieldset>
-      <fieldset className=" px-0 py-0 mx-0">
-        <label className="text-2xl" htmlFor="tel">
-          Teléfono{" "}
-        </label>
-        <input
-          type="tel"
-          className="h-16 w-full border-solid border-black border-4 rounded-lg"
-          name="tel"
-        />
-      </fieldset>
-      <button
-        className="flex py-4 pl-2 text-3xl bg-red-500 justify-center rounded-lg border-solid border-black border-[5px]"
-        type="submit"
-      >
-        Guardar
-      </button>
-    </Form>
+      {[
+        ["Nombre", "firstName", "text"],
+        ["Apellido", "lastName", "text"],
+        ["Edad", "userAge", "number"],
+        ["Dirección", "address", "text"],
+        ["Teléfono", "tel", "tel"],
+      ].map(([label, name, type]) => (
+        <div key={name} className="flex flex-col gap-2">
+          <label
+            htmlFor={name}
+            className="text-[14px] font-medium text-[#6B5240]"
+          >
+            {label}
+          </label>
+
+          <input
+            id={name}
+            name={name}
+            type={type}
+            className="h-12 rounded-xl border border-[#C4AA8A] bg-white px-4 text-[15px] text-[#3B2A1A] outline-none transition-colors focus:border-[#7A5C3F]"
+          />
+        </div>
+      ))}
+
+      <div className="mt-4 flex gap-4">
+        <button
+          type="submit"
+          className="rounded-xl bg-[#7A5C3F] px-6 py-3 text-[14px] font-medium text-[#FAF7F2] transition-colors hover:bg-[#5E4530]"
+        >
+          Save changes
+        </button>
+
+        <button
+          type="button"
+          onClick={cancel}
+          className="rounded-xl border border-[#C4AA8A] px-6 py-3 text-[14px] font-medium text-[#7A5C3F] transition-colors hover:bg-[#EDE4D6]"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   );
 }

@@ -1,98 +1,81 @@
-import { getUser } from "@/lib/api";
-import { userInfo } from ".";
-import { Fragment, useEffect, useState } from "react";
-import { retrieveToken } from "@/lib";
-import { motion, AnimatePresence } from "framer-motion";
-import { LoadingSpinner } from "@/ui/spinner";
+"use client";
 
-export function UserInfo(props: any) {
-  console.log("UserInfo");
-  const getUsr = getUser();
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+
+import { fetchProfile } from "@/redux/slices/profileSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+
+import { retrieveToken } from "@/lib";
+
+const labels = [
+  { label: "First name", key: "firstName" },
+  { label: "Last name", key: "lastName" },
+  { label: "Age", key: "userAge" },
+  { label: "Phone", key: "phoneNumber" },
+  { label: "Address", key: "address" },
+] as const;
+
+function getValue(data: any, key: string) {
+  if (key === "address") return data.address;
+  return data.additionalUserData?.[key];
+}
+
+export function UserInfo({
+  setter,
+}: {
+  setter: (v: boolean) => void;
+}) {
+  const dispatch = useAppDispatch();
+
+  const { data, status } = useAppSelector(
+    (s) => s.profile
+  );
+
   const token = retrieveToken();
-  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
-    const loadGetUser = async () => {
-      try {
-        const res = await getUsr;
-        setUserData(res);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (token) {
-      loadGetUser();
+    if (token && status === "idle") {
+      dispatch(fetchProfile());
     }
-  }, []);
-  const setEdit = props.setter;
-  function UserInfoComp(props: any) {
-    const userInfo = props.user as userInfo;
-    console.log(window.innerWidth);
-    const labels = [
-      {
-        label: "Name/s:",
-        value: userInfo.additionalUserData?.firstName,
-        key: "firstName",
-      },
-      {
-        label: "Last Name/s:",
-        value: userInfo.additionalUserData?.lastName,
-        key: "lastName",
-      },
-      {
-        label: "Age:",
-        value: userInfo.additionalUserData?.userAge,
-        key: "userAge",
-      },
-      {
-        label: "Phone Number:",
-        value: userInfo.additionalUserData?.phoneNumber,
-        key: "phoneNumber",
-      },
-      { label: "Address:", value: userInfo.address, key: "address" },
-    ];
+  }, [token, status, dispatch]);
+
+  if (status === "loading" || !data) {
     return (
-      <div className="flex flex-col text-[25px] gap-6">
-        {labels.map((l) => {
-          return (
-            <AnimatePresence mode="wait" key={l.key}>
-              <motion.div
-                key={l.key}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="pl-2 bg-red-100 rounded-lg border-solid border-black border-[5px]">
-                  <div className="font-bold ">{l.label}</div>
-                  <h3 className="text-3xl">{l.value}</h3>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          );
-        })}
+      <div className="flex h-[300px] items-center justify-center text-[#9A7E62]">
+        Loading profile...
       </div>
     );
   }
 
   return (
-    <Fragment>
-      {userData ? (
-        <div className="flex flex-col justify-between gap-6">
-          <button
-            className="py-4 pl-2 text-3xl bg-red-500 rounded-lg border-solid border-black border-[5px] "
-            onClick={() => {
-              setEdit(true);
-            }}
+    <div className="flex flex-col gap-8">
+      <button
+        onClick={() => setter(true)}
+        className="w-fit rounded-xl bg-[#7A5C3F] px-6 py-3 text-[14px] font-medium text-[#FAF7F2] transition-colors hover:bg-[#5E4530]"
+      >
+        Edit profile
+      </button>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {labels.map((item) => (
+          <motion.div
+            key={item.key}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="rounded-xl border border-[#D9CFC0] bg-[#FAF7F2] p-5"
           >
-            Update Info
-          </button>
-          <UserInfoComp user={userData} />
-        </div>
-      ) : (
-        <div className="flex justify-center items-center h-[calc(100vh-128px)]">
-          <LoadingSpinner />
-        </div>
-      )}
-    </Fragment>
+            <div className="mb-2 text-[13px] uppercase tracking-[0.8px] text-[#9A7E62]">
+              {item.label}
+            </div>
+
+            <div className="text-[18px] font-medium text-[#3B2A1A]">
+              {getValue(data, item.key) || "-"}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }

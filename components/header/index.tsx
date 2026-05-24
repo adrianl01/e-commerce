@@ -1,61 +1,95 @@
-import { useState, type MouseEventHandler } from "react";
-import { BurgerButton } from "@/ui/buttons";
-import { Menu } from "./comps/menu";
-import { BuyItLogo } from "@/imgs";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEmail } from "@/lib/hooks";
-import { HeaderButton } from "./comps/buttons";
-import { SearchHeaderForm } from "./comps/form";
-import { OptionsComp } from "./comps/menu/details";
+"use client";
 
-export function Header() {
-  const path = usePathname();
-  const email = useEmail();
-  let isSearch = false;
-  const strgparam = JSON.stringify(path);
-  if (strgparam) {
-    let p = strgparam.split("/")[1];
-    if (p) {
-      p.slice(0, 6);
-    }
-    if (p === "item") {
-      isSearch = true;
-    } else if (p === "search") {
-      isSearch = true;
-    } else {
-      isSearch = false;
-    }
-  }
+import { retrieveToken } from "@/lib";
 
-  const [menuOpen, setMenuOpen] = useState(false);
 
-  type MenuOpenHandler = MouseEventHandler<HTMLButtonElement>;
+// components/Header.tsx
 
-  const handlerOpenMenu: MenuOpenHandler = (e) => {
-    e.preventDefault();
-    setMenuOpen(true);
-  };
-
+export default function Header() {
+  const token = retrieveToken();
   return (
-    <div className="bg-black md:pb-5 flex justify-between gap-3 py-5 px-5 items-center">
-      <Link href={"/"}>
-        <BuyItLogo />
-      </Link>
-      <SearchHeaderForm conditional={isSearch} />
-      {email ? (
-        <div className="hidden gap-2 items-center md:[display:flex!important]">
-          <OptionsComp />
+    <nav className="flex items-center justify-between border-b border-[#D9CFC0] bg-[#FAF7F2] px-10 py-[18px]">
+      {/* Logo */}
+      <div className="flex items-center gap-[10px]">
+        <div className="flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#7A5C3F]">
+          <svg
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+          >
+            <path
+              d="M10 2C10 2 4 5.5 4 11C4 14.3 6.7 17 10 17C13.3 17 16 14.3 16 11C16 5.5 10 2 10 2Z"
+              fill="#FAF7F2"
+              opacity="0.9"
+            />
+            <path
+              d="M10 8V14M7 11H13"
+              stroke="#7A5C3F"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
-      ) : (
-        <HeaderButton text="Login" link="/login" />
-      )}
-      <BurgerButton className={"block md:hidden"} handler={handlerOpenMenu} />
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          <Menu closeMenu={setMenuOpen} />
+
+        <div>
+          <div className="text-[20px] font-medium tracking-[-0.3px] text-[#3B2A1A]">
+            Nido
+          </div>
+
+          <div className="text-[11px] uppercase tracking-[0.8px] text-[#9A7E62]">
+            Home & Living
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+
+      {/* Nav links */}
+      <div className="flex gap-7">
+        <a
+          href="#"
+          className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]"
+        >
+          Furniture
+        </a>
+
+        <a
+          href="#"
+          className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]"
+        >
+          Lighting
+        </a>
+
+        <a
+          href="#"
+          className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]"
+        >
+          Decor
+        </a>
+
+        <a
+          href="#"
+          className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]"
+        >
+          New arrivals
+        </a>
+      </div>
+
+      {/* Right buttons */}
+      <div className="flex items-center gap-3">
+        {token ? (
+          <button className="cursor-pointer rounded-[6px] bg-[#7A5C3F] px-4 py-[7px] text-[13px] text-[#FAF7F2] transition-colors hover:bg-[#5E4530]"
+          onClick={() => window.location.href = "/profile"}
+          >
+            My account
+          </button>
+        ) : (
+          <button className="cursor-pointer rounded-[6px] border border-[#C4AA8A] bg-transparent px-4 py-[7px] text-[13px] text-[#7A5C3F] transition-colors hover:bg-[#EDE4D6]"
+          onClick={() => window.location.href = "/login"}
+          >
+            Log in
+          </button>
+        )}
+      </div>
+    </nav>
   );
 }

@@ -1,73 +1,64 @@
-import useSWR from "swr";
-import useSWRImmutable from "swr";
-import { fetchAPI, useBuyProduct } from "./api";
+// import useSWR from "swr";
+// import useSWRImmutable from "swr/immutable";
+// import { fetchAPI, useBuyProduct } from "./api";
 
-export async function useMe() {
-    const { data, error } = useSWR("me", fetchAPI as any);
-    const res = await data ? data : null;
-    return res;
-}
+// // ✅ hook sincrónico, sin async
+// export function useMe() {
+//   const { data, error, isLoading } = useSWR("me", fetchAPI as any);
+//   return { data: data ?? null, error, isLoading };
+// }
 
-export async function useProducts(
-    query: string | undefined,
-    offset: string,
-) {
-    if (query === "") {
-        return console.error({ message: "query vacío" })
-    } else if (query === "random") {
-        const { data, error } = useSWRImmutable(
-            `search?search=${""}&limit=3&offset=${offset}`,
-            fetchAPI as any
-        );
-        const res = data ? data : null;
-        return res;
-    } else {
-        const { data, error } = useSWRImmutable(
-            `search?search=${query}&limit=3&offset=${offset}`,
-            fetchAPI as any
-        );
-        const res = data ? data : null;
-        return res;
-    }
-}
+// interface UseProductsParams {
+//   query?: string;
+//   offset: string;
+//   limit?: number;
+// }
+// // ✅ hook sincrónico, sin condicionales — la key cambia, no el hook
 
-export function useProduct(productId: string) {
-    const { data, error } = useSWRImmutable(
-        "products/" + productId,
-        fetchAPI as any
-    );
-    const res = data ? data : null;
-    return res;
-}
-export function useEmail() {
-    const { data, error } = useSWR("email",
-        () => {
-            return localStorage.getItem("email")
-        }
-    );
-    const res = data ? data : null;
-    return res;
-}
+// export function useProducts( { query, offset, limit }: UseProductsParams) {
+//   const key =
+//     !query || query === ""
+//       ? null // SWR no fetcha si la key es null
+//       : `search?search=${query === "random" ? "" : query}&limit=${limit ? limit : 3}&offset=${offset}`;
 
-export async function useBuyProductFunc(id: string) {
-    return await useBuyProduct(id)
-}
+//   const { data, error, isLoading } = useSWRImmutable(key, fetchAPI as any);  
 
-export function useGetUserOrders() {
-    const { data, error } = useSWRImmutable('me/orders', fetchAPI as any)
-    return data
-}
+//   return { data: data ?? null, error, isLoading };
+// } 
 
-export function saveOrders(orders: []) {
-    const parsed = JSON.stringify(orders);
-    return localStorage.setItem("userOrders", parsed);
-}
+// // ✅ sin cambios estructurales, solo limpieza
+// export function useProduct(productId: string) {
+//   const { data, error, isLoading } = useSWRImmutable(
+//     productId ? `products/${productId}` : null,
+//     fetchAPI as any
+//   );
+//   return { data: data ?? null, error, isLoading };
+// }
 
-export async function getOrder(orderId: string) {
-    const orders = await localStorage.getItem("userOrders") as string
-    const parsedOrders = JSON.parse(orders)
-    var result = await parsedOrders.filter(function (order: any) {
-        return order.orderId == orderId
-    })
-    return await result
-}
+// // ✅ localStorage no es async — no necesita useSWR
+// export function useEmail() {
+//   if (typeof window === "undefined") return null;
+//   return localStorage.getItem("email");
+// }
+
+// // ✅ useBuyProduct probablemente ya es un hook o función async — verificá
+// export function useBuyProductFunc(id: string) {
+//   return useBuyProduct(id);
+// }
+
+// export function useGetUserOrders() {
+//   const { data, error, isLoading } = useSWRImmutable("me/orders", fetchAPI as any);
+//   return { data: data ?? null, error, isLoading };
+// }
+
+// // estas dos no usan hooks, están bien — solo saco los await innecesarios
+// export function saveOrders(orders: []) {
+//   localStorage.setItem("userOrders", JSON.stringify(orders));
+// }
+
+// export function getOrder(orderId: string) {
+//   const orders = localStorage.getItem("userOrders");
+//   if (!orders) return null;
+//   const parsed = JSON.parse(orders);
+//   return parsed.find((order: any) => order.orderId === orderId) ?? null;
+// }

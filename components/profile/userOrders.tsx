@@ -1,59 +1,40 @@
-import { getOrders } from "@/lib/api";
-import { saveOrders } from "@/lib/hooks";
+"use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { fetchOrders } from "@/redux/slices/profileSlice";
 
 export function UserOrders() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const orders = getOrders();
-  const [userOrders, setUserOrders] = useState("");
-  useEffect(() => {
-    orders.then((e) => {
-      setUserOrders(e);
-      saveOrders(e);
-    });
-  }, []);
+  const { orders, ordersStatus } = useAppSelector((s) => s.profile);
 
-  function UserOrdersComp(props: any) {
-    let array = [];
-    array = props.orders;
-    console.log(array);
-    return (
+  useEffect(() => {
+    if (ordersStatus === "idle") {
+      dispatch(fetchOrders());
+    }
+  }, [ordersStatus, dispatch]);
+
+  if (ordersStatus === "loading") return <div>Loading orders...</div>;
+
+  return (
+    <div className="flex flex-col justify-between h-full gap-6">
       <div className="flex flex-col text-[25px] gap-6">
-        {array ? (
-          array.map((e: any) => {
-            return (
-              <button
-                key={e.orderId}
-                className="pl-2 bg-red-100 hover:bg-red-400 rounded-lg border-solid border-black border-[5px]"
-                onClick={() => {
-                  router.push("profile/orders/" + e.orderId);
-                }}
-              >
-                <div className="font-bold ">{e.additionalInfo.title}</div>
-                <h3 id={e.orderId} className="text-3xl">
-                  Status:{" " + e.status}
-                </h3>
-              </button>
-            );
-          })
+        {orders.length > 0 ? (
+          orders.map((e: any) => (
+            <button
+              key={e.orderId}
+              className="pl-2 bg-red-100 hover:bg-red-400 rounded-lg border-solid border-black border-[5px]"
+              onClick={() => router.push(`profile/orders/${e.orderId}`)}
+            >
+              <div className="font-bold">{e.additionalInfo.title}</div>
+              <h3 className="text-3xl">Status: {e.status}</h3>
+            </button>
+          ))
         ) : (
           <div>No Orders Created Yet</div>
         )}
       </div>
-    );
-  }
-
-  // const orderHandler = async (e: any) => {
-  //   e.preventDefault();
-  //   const t = e.target as HTMLElement;
-  //   console.log(t);
-  //   console.log(t.id);
-
-  // };
-  return (
-    <div className="flex flex-col justify-between h-[100%] gap-6">
-      <UserOrdersComp orders={userOrders} />
     </div>
   );
 }

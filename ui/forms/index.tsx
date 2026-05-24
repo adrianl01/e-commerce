@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatedButton, SearchButton2 } from "../buttons";
 import { signIn } from "next-auth/react";
@@ -10,24 +11,27 @@ import {
 } from "../inputs/index";
 import { getToken, validateEmail } from "@/lib/api";
 import { saveEmail } from "@/lib";
+
 interface HomeFormProps {
   className?: string;
   classInput?: string;
   classButton?: string;
+  placeholder?: string;
 }
 
 export function HomeForm({
   className,
   classButton,
   classInput,
+  placeholder,
 }: HomeFormProps) {
   const router = useRouter();
   const handlerHomeForm = (e: any) => {
     e.preventDefault();
-    const q = e.target.query.value;
+    const q = e.target.query.value as string;
     if (q === "") {
       throw console.log({ message: "search vacío" });
-    } else {
+    } else if (q.length >= 3) {
       router.push("/search?query=" + q + "&offset=0");
     }
   };
@@ -36,9 +40,9 @@ export function HomeForm({
       <input
         className={classInput}
         name="query"
-        placeholder="Find your product"
+        placeholder={placeholder ? placeholder : "Click here to search"}
       />
-      <AnimatedButton type="submit" buttonText="Search" />
+      <AnimatedButton type="submit" buttonText="Search" className={classButton} />
     </form>
   );
 }
@@ -132,16 +136,19 @@ export function SignUpForm({ setter }: SignUpFormProps) {
   );
 }
 
-export function SignUpCodeForm() {
+interface SignUpCodeFormProps {
+  setCode: (code: number) => void;
+}
+
+export function SignUpCodeForm({ setCode }: SignUpCodeFormProps) {
+  console.log("SignUpCodeForm rendered");
   const router = useRouter();
   const SignUpCodeHandler = (e: any) => {
     e.preventDefault();
     const code = e.target.code.value;
-    const res = getToken(code);
-    res.then((r) => {
-      console.log("getTokenRes:", r);
-      router.push("/");
-    });
+    const numberCode = parseInt(code, 10);
+    console.log("Code entered:", numberCode);
+    setCode(numberCode);
   };
   return (
     <form className="signUpFormDiv" action="" onSubmit={SignUpCodeHandler}>

@@ -128,10 +128,7 @@ export function AnimatedButton({
 }: AnimatedButtonProps) {
   return (
     <button
-      className={
-        "w-full py-2 px-4 rounded-xl bg-gradient-to-r from-pink-400 via-pink-300 to-yellow-200 text-black font-bold shadow-lg transition duration-200 hover:scale-105 hover:from-pink-500 hover:to-yellow-300 focus:outline-none focus:ring-2 focus:ring-pink-300" +
-        (className ? ` ${className}` : "")
-      }
+      className={className ? className : "w-full py-2 px-4 rounded-xl bg-gradient-to-r from-pink-400 via-pink-300 to-yellow-200 text-black font-bold shadow-lg transition duration-200 hover:scale-105 hover:from-pink-500 hover:to-yellow-300 focus:outline-none focus:ring-2 focus:ring-pink-300"}
       type={type ?? "submit"}
     >
       {buttonText}

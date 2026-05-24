@@ -1,92 +1,70 @@
+"use client";
 import { BoxProd } from "@/components/box-product";
 import { ProdDiv2 } from "./style";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import React, { useState } from "react";
-import { searchProducts } from "@/lib";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { fetchProducts, Product } from "@/redux/slices/productSlice";
 
 export function ProdResults() {
+  const dispatch = useAppDispatch();
+  const { filtered, status, error } = useAppSelector((s) => s.products);
+
   const searchParams = useSearchParams();
   const router = useRouter();
-  const goBack = router.back;
+
   const query = searchParams?.get("query") ?? "";
   const offset = searchParams?.get("offset") ?? "0";
-  const newOffset = JSON.parse(offset) + 3;
-  function BackButton(props: any) {
-    if (props.offset > 0) {
-      return (
-        <button
-          onClick={() => {
-            goBack();
-          }}
-        >
-          {"<<"}
-        </button>
-      );
-    }
-  }
+  const offsetNum = parseInt(offset, 10);
+  const newOffset = offsetNum + 3;
+  const newPath = `/search?query=${query}&offset=${newOffset}`;
 
-  const newPath = "/search?query=" + query + "&offset=" + newOffset;
-  const result = searchProducts(query, offset);
-  const [data, setData] = useState("") as any;
-  result.then((r) => {
-    if (r !== null) {
-      setData(r);
-    } else {
-      return <div>nada</div>;
-    }
-  });
-  function ShowData(props: any) {
-    if (props.dataList.results !== undefined) {
-      const offThree = JSON.parse(offset) + 3;
-      const totalRes = JSON.parse(props.dataList.pagination.total);
-      const num = () => {
-        const divisions = totalRes / 3;
-        const totalDivs = Math.floor(divisions) * 3;
-        if (totalDivs === JSON.parse(offset)) {
-          return totalRes;
-        } else {
-          return offThree;
-        }
-      };
+  useEffect(() => {
+    if (!query) return;
+    dispatch(fetchProducts({ query, offset }));
+  }, [query, offset, dispatch]);
 
-      return (
-        <div className="flex flex-col gap-4 items-center">
-          <div className="text-2xl">
-            {props.dataList.pagination.total} results found
-          </div>
-          <div className="flex flex-col md:flex-row gap-5">
-            {data.results.map((r: any) => {
-              return (
-                <Link href={"/item/" + r.objectID} key={r.objectID}>
-                  {" "}
-                  <BoxProd
-                    mainDiv="flex flex-col shadow-lg transition duration-200 hover:scale-105 bg-[#e75a7c] w-[328px] lg:min-w-[320px] lg:max-w-[350px] h-[322px] lg:h-[300px] border-solid border-black border-[4px] text-black focus:ring-2 justify-between"
-                    title={r.Name}
-                    price={r.Unit_cost}
-                    img={r.Images[0].url}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-          <div className="text-2xl">
-            {JSON.parse(offset) + 1}-{num()}
-          </div>
-        </div>
-      );
-    } else {
-      return <div>Loading...</div>;
-    }
-  }
+  // paginación: total viene de la API — lo guardamos en el slice si hace falta,
+  // por ahora lo calculamos con lo que tenemos
+  const showing = filtered.length;
+
+  if (status === "loading") return <div className="text-center py-10">Loading...</div>;
+  if (status === "failed") return <div className="text-center py-10 text-red-400">{error}</div>;
+  if (status === "succeeded" && filtered.length === 0) return <div className="text-center py-10">No results found.</div>;
 
   return (
     <ProdDiv2>
-      <ShowData dataList={data} />
+      {status === "succeeded" && (
+        <div className="flex flex-col gap-4 items-center">
+          <div className="text-2xl">{showing} results found</div>
+
+          <div className="flex flex-col md:flex-row gap-5">
+            {filtered.map((r:Product) => (
+              <Link href={`/item/${r.objectID}`} key={r.objectID}>
+                <BoxProd
+                  mainDiv="flex flex-col shadow-lg transition duration-200 hover:scale-105 bg-[#e75a7c] w-[328px] lg:min-w-[320px] lg:max-w-[350px] h-[322px] lg:h-[300px] border-solid border-black border-[4px] text-black focus:ring-2 justify-between"
+                  title={r.Name}
+                  price={r.Unit_cost}
+                  img={r.Images[0].url}
+                />
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-2xl">
+            {offsetNum + 1}–{offsetNum + showing}
+          </div>
+        </div>
+      )}
+
       <div className="flex gap-5 text-2xl">
-        <BackButton offset={offset} />
-        <Link href={newPath}>Next Page</Link>
+        {offsetNum > 0 && (
+          <button onClick={() => router.back()}>{"<<"}</button>
+        )}
+        {showing === 3 && (
+          <Link href={newPath}>Next Page</Link>
+        )}
       </div>
     </ProdDiv2>
   );

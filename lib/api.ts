@@ -1,135 +1,51 @@
-import { getEmail, retrieveToken, saveToken } from "./index";
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { retrieveToken } from "./storage";
 
-export interface userData {
-  firstName: string;
-  lastName: string;
-  userAge: number;
-  phoneNumber: number;
-}
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL;
 
-export async function fetchAPI(param: RequestInfo, option: RequestInit) {
+export async function fetchAPI<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
   const token = retrieveToken();
-  const init: any = option || {};
-  if (token) {
-    init.headers ||= {};
-    init.headers.Authorization = "bearer " + token;
-    init.headers["Content-Type"] = "application/json";
-  }
-  const res = await fetch((API_URL as string) + param, init);
 
-  if (res.status >= 200 && res.status < 300)
-    try {
-      return res.json();
-    } catch (e) {
-      console.log(e);
-      throw {
-        message: "An error has ocurred",
-        status: res.status,
-      };
+  const headers = new Headers(
+    options.headers
+  );
+
+  headers.set(
+    "Content-Type",
+    "application/json"
+  );
+
+  if (token) {
+    headers.set(
+      "Authorization",
+      `Bearer ${token}`
+    );
+  }
+
+  const response = await fetch(
+    `${API_URL}${endpoint}`,
+    {
+      ...options,
+      headers,
     }
-}
-export async function validateEmail(userEmail: string) {
-  const email = userEmail;
-  return await fetchAPI("auth", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  }).catch((e) => {
-    console.error(e);
-  });
-}
+  );
 
-type getTokenType = {
-  code?: number;
-  status?: string;
-};
-export async function getToken({ code, status }: getTokenType) {
-  const email = getEmail();
-  console.log({ email, code, status });
-  if (!email) throw { message: "Email not found" };
-  if (!code) throw { message: "Code not found" };
-  if (status !== "authenticated") throw { message: "Status not Authenticated" };
+  if (!response.ok) {
+    const error =
+      await response.json().catch(() => null);
 
-  if (email && code) {
-    const data = await fetchAPI("auth/token", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ email, code }),
-    });
-    saveToken(data.token);
-    return data;
-  } else if (email && status === "authenticated") {
-    const data = await fetchAPI("auth/token", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ email, status }),
-    });
-    saveToken(data.token);
-    return data;
+    throw {
+      status: response.status,
+      message:
+        error?.message ||
+        "Request failed",
+    };
   }
-}
-export async function getUser() {
-  return await fetchAPI("me", {
-    method: "GET",
-    mode: "cors",
-  });
-}
-export async function updateUser(additionalUserData: userData) {
-  return await fetchAPI("me", {
-    method: "PATCH",
-    mode: "cors",
-    body: JSON.stringify({ additionalUserData }),
-  });
-}
-export async function updateAddress(address: string) {
-  return await fetchAPI("me/address", {
-    method: "PATCH",
-    mode: "cors",
-    body: JSON.stringify({ address }),
-  });
-}
-export async function getAddress() {
-  const token = retrieveToken();
-  if (token) {
-    const user = getUser();
-    console.log(user);
-  }
-}
-export async function useBuyProduct(id: string) {
-  console.log("use buy product");
-  const token = retrieveToken();
-  if (token) {
-    const res = await fetchAPI("order", {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify({ productId: id }),
-    });
-    return res;
-  } else {
-    return { message: "Token Not Found" };
-  }
-}
-export async function getOrders() {
-  const token = retrieveToken();
-  if (token) {
-    const res = await fetchAPI("me/orders", {
-      method: "GET",
-      mode: "cors",
-    });
-    return res;
-  } else {
-    return { message: "Token Not Found" };
-  }
+
+  return response.json();
 }
 // export async function generateOrder(
 //   address: string,

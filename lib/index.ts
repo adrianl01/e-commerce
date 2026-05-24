@@ -1,40 +1,46 @@
-import { useProduct, useProducts } from "./hooks";
-
+import { fetchAPI } from './api';
+export interface userData {
+  firstName: string;
+  lastName: string;
+  userAge: number;
+  phoneNumber: number;
+  address: string;
+}
 export function saveToken(token: string) {
-  localStorage.setItem("token", JSON.stringify(token));
+  if (token) localStorage.setItem('token', JSON.stringify(token));
 }
 
 export function retrieveToken() {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token") || "";
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token') || '';
     if (!token) return;
     return JSON.parse(token);
   }
 }
 
 export function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  localStorage.removeItem("email");
-  return { message: "Logged Out" };
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('email');
+  return { message: 'Logged Out' };
 }
 
 export function saveEmail(email: string) {
-  localStorage.setItem("email", email);
+  localStorage.setItem('email', email);
 }
 
 export function getEmail() {
-  const email = localStorage.getItem("email");
+  const email = localStorage.getItem('email');
   return email;
 }
 
-//   export function saveUserDataOnLS(data: UserStorageData) {
-//     localStorage.setItem("user", JSON.stringify(data));
-//   }
+export function saveUserDataOnLS(data: userData) {
+  localStorage.setItem('user', JSON.stringify(data));
+}
 
 export function getUserDataFromLS() {
   if (typeof window !== undefined) {
-    const userDataLS = localStorage.getItem("user") || "";
+    const userDataLS = localStorage.getItem('user') || '';
     if (!userDataLS) return;
     return JSON.parse(userDataLS);
   }
@@ -52,15 +58,20 @@ export function getUserAddress() {
 }
 
 export async function searchProducts(q: string, offset: string) {
-  const data = await useProducts(q, offset);
-  const res = await data;
-  return res;
+  if (!q || q === '') throw new Error('query vacío');
+  const search = q === 'random' ? '' : q;
+  const data = await fetchAPI(`search?search=${search}&limit=3&offset=${offset}`, {
+    method: 'GET',
+    mode: 'cors'
+  });
+  return data;
 }
-export async function getProductbyId(q: any) {
-  console.log(q);
-  if (q) {
-    const data = await useProduct(q);
-    const res = await data;
-    return res;
-  }
+
+export async function getProductById(id: string) {
+  if (!id) throw new Error('id vacío');
+  const data = await fetchAPI(`products/${id}`, {
+    method: 'GET',
+    mode: 'cors'
+  });
+  return data;
 }

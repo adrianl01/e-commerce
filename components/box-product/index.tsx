@@ -1,4 +1,4 @@
-import { BoxDiv, BoxTitlePriceDiv } from "./style";
+import { BoxTitlePriceDiv } from "./style";
 
 interface BoxProdProps {
   mainDiv: string;

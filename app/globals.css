@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  align-items: center;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  background-color: #FAF7F2;
+}
+
+.homeFormDiv2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  background-color: black;
+  padding: 20px;
+  padding-top: 0px;
+
+  /* @media (min-width:768px) {
+    display: none;
+  } */
+}
+
+.signUpFormDiv {
+  @media (min-width:768px) {
+    justify-content: center;
+  }
+}
+
+.hidden {
+  display: none;
+}
