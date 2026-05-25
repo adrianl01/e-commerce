@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { fetchProducts, Product } from "@/redux/slices/productSlice";
+import ProductCard from "@/components/ProductCard";
 
 export function ProdResults() {
   const dispatch = useAppDispatch();
@@ -42,11 +43,7 @@ export function ProdResults() {
           <div className="flex flex-col md:flex-row gap-5">
             {filtered.map((r:Product) => (
               <Link href={`/item/${r.objectID}`} key={r.objectID}>
-                <BoxProd
-                  mainDiv="flex flex-col shadow-lg transition duration-200 hover:scale-105 bg-[#e75a7c] w-[328px] lg:min-w-[320px] lg:max-w-[350px] h-[322px] lg:h-[300px] border-solid border-black border-[4px] text-black focus:ring-2 justify-between"
-                  title={r.Name}
-                  price={r.Unit_cost}
-                  img={r.Images[0].url}
+                <ProductCard product={r} key={r.objectID}
                 />
               </Link>
             ))}
@@ -62,7 +59,7 @@ export function ProdResults() {
         {offsetNum > 0 && (
           <button onClick={() => router.back()}>{"<<"}</button>
         )}
-        {showing === 3 && (
+        {showing > 3 && (
           <Link href={newPath}>Next Page</Link>
         )}
       </div>

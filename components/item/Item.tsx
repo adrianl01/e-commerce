@@ -1,10 +1,9 @@
 "use client";
 
-import { fetchAPI } from "@/lib/api";
 import { useProduct } from "@/lib/hooks/products/useProduct";
 import { Body } from "@/ui/typography/inter";
 import { useRouter } from "next/navigation";
-import useSWRImmutable from "swr/immutable";
+
 
 interface Product {
   objectID: string;
@@ -16,11 +15,7 @@ interface Product {
 
 export function Item({ itemId }: { itemId: string }) {
   const router = useRouter();
-
-  const { data, error, isLoading } = useSWRImmutable<Product>(
-    `products/${itemId}`,
-    fetchAPI as any
-  );
+  const { data, error, isLoading } = useProduct({ id: itemId }) as { data: Product | null; error: any; isLoading: boolean };
 
   const handleBuy = async () => {
     const res = await useProduct({ id: itemId });
@@ -31,7 +26,7 @@ export function Item({ itemId }: { itemId: string }) {
     }
     console.log("Checkout response:", res); // Debug log to check the response from useProduct
 
-    // router.push(res.data?.objectID ? `/checkout/${res.data.objectID}` : "/checkout");
+    router.push(res.data?.objectID ? `/checkout/${res.data.objectID}` : "/checkout");
   };
 
   if (isLoading) {

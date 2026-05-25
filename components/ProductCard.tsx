@@ -11,7 +11,8 @@ export default function ProductCard({ product }: { product: Product }) {
         <div
             id={product.objectID}
             key={product.objectID}
-            className="cursor-pointer overflow-hidden rounded-[12px] border border-[#D9CFC0] bg-white transition-transform hover:-translate-y-[3px]"
+            className="cursor-pointer overflow-hidden rounded-[12px] border border-[#D9CFC0] bg-white transition-transform hover:-translate-y-[3px] min-w-[280px]"
+            onClick={() => (window.location.href = `/item/${product.objectID}`)}
           >
             {/* Image */}
             <div className="flex h-[160px] items-center justify-center overflow-hidden bg-[#EDE4D6]">
