@@ -1,9 +1,9 @@
 "use client";
 import { useAppSelector } from "@/redux/store";
 
-export function OrderInfo({ orderInfo }: { orderInfo: string }) {
+export function OrderInfo({ orderId }: { orderId: string | string[] | undefined }) {
   const { orders } = useAppSelector((s) => s.profile);
-  const order = orders.find((o: any) => o.orderId === orderInfo);
+  const order = orders.find((o: any) => o.orderId === orderId);
 
   if (!order) return <></>;
 
