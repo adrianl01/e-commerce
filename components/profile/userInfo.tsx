@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { fetchProfile } from "@/redux/slices/profileSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 
-import { retrieveToken } from "@/lib";
+import { retrieveToken } from "@/lib/storage";
 
 const labels = [
   { label: "First name", key: "firstName" },

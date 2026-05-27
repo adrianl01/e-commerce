@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { saveEmail } from '@/lib';
-import { verifyCode } from '@/lib/services/auth';
+import { validateEmail, verifyCode } from '@/lib/services/auth';
 type Setter = (state: 'email' | 'code' | 'error') => void;
 
 const cardClass = 'w-full max-w-[420px] rounded-2xl border border-[#D9CFC0] bg-white p-8';
@@ -14,7 +14,7 @@ export function SignUp({ setter }: { setter: Setter }) {
 
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
@@ -36,6 +36,7 @@ export function SignUp({ setter }: { setter: Setter }) {
       setError('');
 
       saveEmail(email);
+      await validateEmail(email);
 
       setter('code');
     } catch {
@@ -103,11 +104,8 @@ export function SignUpCode() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const form = e.currentTarget;
-
     const rawCode = (form.elements.namedItem('code') as HTMLInputElement).value;
-
     const code = Number(rawCode);
 
     if (!code) {
@@ -120,6 +118,11 @@ export function SignUpCode() {
       setError('');
 
       const res = await verifyCode(code);
+      if (res.status === 401){
+        setError('Code expired. Please request a new one.');
+        return;
+      }
+      console.log('Verification result:', res);
 
       if (!res) {
         setError('Invalid code');

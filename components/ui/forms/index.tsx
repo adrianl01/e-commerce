@@ -42,13 +42,9 @@ export function SearchForm({ className }: FormProps) {
 
   const handlerSearchForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const form = e.currentTarget;
-
     const q = (form.elements.namedItem('query') as HTMLInputElement).value.trim();
-
     if (!q) return;
-
     router.push(`/search?query=${encodeURIComponent(q)}&offset=0`);
   };
 
@@ -58,35 +54,13 @@ export function SearchForm({ className }: FormProps) {
         name="query"
         type="text"
         placeholder="Search chairs, lamps, rugs..."
-        className="
-          h-12
-          flex-1
-          rounded-xl
-          border
-          border-[#C4AA8A]
-          bg-white
-          px-4
-          text-[14px]
-          text-[#3B2A1A]
-          outline-none
-          transition-colors
-          placeholder:text-[#B0957A]
-          focus:border-[#7A5C3F]
-        "
+        className="h-12 flex-1 rounded-xl border border-[#C4AA8A] bg-white px-4 text-[14px] text-[#3B2A1A] outline-none transition-colors
+          placeholder:text-[#B0957A] focus:border-[#7A5C3F]"
       />
 
       <button
         type="submit"
-        className="
-          rounded-xl
-          bg-[#7A5C3F]
-          px-6
-          text-[14px]
-          font-medium
-          text-[#FAF7F2]
-          transition-colors
-          hover:bg-[#5E4530]
-        "
+        className="rounded-xl bg-[#7A5C3F] px-6 text-[14px] font-medium text-[#FAF7F2] transition-colors hover:bg-[#5E4530]"
       >
         Search
       </button>

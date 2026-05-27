@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAPI } from "@/lib/api";
-import type { userData } from "@/lib/api";
+import type { userData } from "@/lib";
 
 export interface Profile {
   email: string;
@@ -35,7 +35,7 @@ const initialState: ProfileState = {
 };
 
 // GET "me"
-export const fetchProfile = createAsyncThunk(
+export const fetchProfile = createAsyncThunk<Profile, void>(
   "profile/fetch",
   async () => {
     return await fetchAPI("me", { method: "GET", mode: "cors" });
@@ -43,7 +43,7 @@ export const fetchProfile = createAsyncThunk(
 );
 
 // PATCH "me" con userData
-export const updateProfile = createAsyncThunk(
+export const updateProfile = createAsyncThunk<Profile, userData>(
   "profile/update",
   async (additionalUserData: userData) => {
     return await fetchAPI("me", {
@@ -55,7 +55,7 @@ export const updateProfile = createAsyncThunk(
 );
 
 // PATCH "me/address"
-export const updateAddress = createAsyncThunk(
+export const updateAddress = createAsyncThunk<Profile, string>(
   "profile/updateAddress",
   async (address: string) => {
     return await fetchAPI("me/address", {
@@ -67,7 +67,7 @@ export const updateAddress = createAsyncThunk(
 );
 
 // GET "me/orders"
-export const fetchOrders = createAsyncThunk(
+export const fetchOrders = createAsyncThunk<Order[], void>(
   "profile/fetchOrders",
   async () => {
     return await fetchAPI("me/orders", { method: "GET", mode: "cors" });

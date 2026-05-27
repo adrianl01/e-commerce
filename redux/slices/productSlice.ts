@@ -1,14 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAPI } from "@/lib/api";
-
-export interface Product {
-  objectID: string;
-  Name: string;
-  Unit_cost: number;
-  Images: { url: string }[];
-  Description: string;
-  soldBy: string;
-}
+import { Product } from "@/lib/hooks/products/useProduct";
 
 interface ProductState {
   items: Product[];
@@ -54,8 +46,8 @@ function applyFilters(
     );
   }
 
-  if (sortOrder === "asc") result.sort((a, b) => a.Unit_cost - b.Unit_cost);
-  else if (sortOrder === "desc") result.sort((a, b) => b.Unit_cost - a.Unit_cost);
+  if (sortOrder === "asc") result.sort((a, b) => a.Unit_cost ? a.Unit_cost - b.Unit_cost : 1);
+  else if (sortOrder === "desc") result.sort((a, b) => b.Unit_cost ? b.Unit_cost - a.Unit_cost : -1);
 
   return result;
 }
@@ -87,7 +79,8 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         // ajustá según la forma real de la respuesta de tu API
-        const items = action.payload?.results ?? action.payload ?? [];
+        const payload = action.payload as Product[] | { results?: Product[] };
+        const items = Array.isArray(payload) ? payload : payload.results ?? [];
         state.items = items;
         state.filtered = applyFilters(items, state.searchQuery, state.sortOrder);
       })

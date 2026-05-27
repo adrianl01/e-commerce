@@ -1,11 +1,11 @@
 'use client';
 
-import { logout, retrieveToken } from '@/lib';
+import { logout, retrieveToken } from '@/lib/storage';
 
 export default function Footer() {
   const token = retrieveToken();
   return (
-    <footer className="mt-6 flex items-center justify-between bg-[#3B2A1A] px-10 py-9">
+    <footer className="mt-6 flex items-center justify-between align-middle bg-[#3B2A1A] px-10 py-6">
       {/* Brand */}
       <div className="flex items-center gap-[10px]">
         <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-[#7A5C3F]">
@@ -23,7 +23,7 @@ export default function Footer() {
 
       {/* Links */}
       <div className="flex gap-6">
-        {token ? (
+        {/* {token ? (
           <a href="/profile" className="text-[13px] text-[#B0957A] transition-colors hover:text-[#FAF7F2]">
             My profile
           </a>
@@ -31,21 +31,19 @@ export default function Footer() {
           <a href="/login" className="text-[13px] text-[#B0957A] transition-colors hover:text-[#FAF7F2]">
             Log in
           </a>
+        )} */}
+
+        {token && (
+          <button
+            onClick={() => {
+              logout();
+              window.location.href = '/';
+            }}
+            className="text-[13px] text-[#B0957A] transition-colors hover:text-[#FAF7F2]"
+          >
+            Log out
+          </button>
         )}
-
-        <a href="/search" className="text-[13px] text-[#B0957A] transition-colors hover:text-[#FAF7F2]">
-          Search
-        </a>
-
-        <button
-          onClick={() => {
-            logout();
-            window.location.href = '/';
-          }}
-          className="text-[13px] text-[#B0957A] transition-colors hover:text-[#FAF7F2]"
-        >
-          Log out
-        </button>
       </div>
 
       {/* Copyright */}

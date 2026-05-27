@@ -30,6 +30,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<string>) {
+      console.log("Adding to cart:", action.payload);
       if (!state.productIds.includes(action.payload)) {
         state.productIds.push(action.payload);
       }

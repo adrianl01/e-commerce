@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { retrieveToken } from "@/lib";
+import { retrieveToken } from "@/lib/storage";
 import { SignUp } from "./forms";
 import { SignUpCode } from "./forms";
 

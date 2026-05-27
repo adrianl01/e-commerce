@@ -1,6 +1,6 @@
-import { CloseMenuButton, MenuButton } from "@/ui/buttons";
+import { CloseMenuButton, MenuButton } from "@/components/ui/buttons";
 import Link from "next/link";
-import { useEmail } from "@/lib/hooks";
+import { getEmail } from "@/lib/storage";
 import { logout, retrieveToken } from "@/lib";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +11,7 @@ export function Menu(props: any) {
     props.closeMenu(false);
   };
   const token = retrieveToken();
-  const email = useEmail();
+  const email = getEmail();
 
   function ShowEmail(props: any) {
     return <div className="text-[23px]">{props.emailProp}</div>;

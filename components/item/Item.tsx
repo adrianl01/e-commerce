@@ -1,39 +1,67 @@
 "use client";
 
-import { useProduct } from "@/lib/hooks/products/useProduct";
-import { Body } from "@/ui/typography/inter";
 import { useRouter } from "next/navigation";
 
+import { Body } from "@/components/ui/typography/inter";
 
-interface Product {
-  objectID: string;
-  Name: string;
-  Description: string;
-  Unit_cost: number;
-  Images?: { url: string }[];
-}
+import { Product, useProduct } from "@/lib/hooks/products/useProduct";
+import { useAuth } from "@/lib/hooks/auth/useAuth";
 
-export function Item({ itemId }: { itemId: string }) {
+import { useAppDispatch } from "@/redux/store";
+import { addToCart } from "@/redux/slices/cartSlice";
+
+export function Item({
+  itemId,
+}: {
+  itemId: string;
+}) {
   const router = useRouter();
-  const { data, error, isLoading } = useProduct({ id: itemId }) as { data: Product | null; error: any; isLoading: boolean };
 
-  const handleBuy = async () => {
-    const res = await useProduct({ id: itemId });
+  const dispatch = useAppDispatch();
 
-    if (res.error === "Token Not Found") {
+  const { token } = useAuth();
+
+  const {
+    data,
+    error,
+    isLoading,
+  } = useProduct({
+    id: itemId,
+  }) as {
+    data: Product | null;
+    error: any;
+    isLoading: boolean;
+  };
+
+  const handleBuy = () => {
+    if (!token) {
       alert("You must log in first");
       return;
     }
-    console.log("Checkout response:", res); // Debug log to check the response from useProduct
 
-    router.push(res.data?.objectID ? `/checkout/${res.data.objectID}` : "/checkout");
+    if (!data?.objectID) return;
+
+    router.push(
+      `/checkout/${data.objectID}`
+    );
+  };
+
+  const handleAddToCart = () => {
+    if (!token) {
+      alert("You must log in first");
+      return;
+    }
+
+    dispatch(addToCart(itemId));
   };
 
   if (isLoading) {
     return (
       <Body>
         <div className="mx-auto flex min-h-[70vh] max-w-[1200px] items-center justify-center px-10">
-          <p className="text-[#6B5240]">Loading product...</p>
+          <p className="text-[#6B5240]">
+            Loading product...
+          </p>
         </div>
       </Body>
     );
@@ -44,7 +72,8 @@ export function Item({ itemId }: { itemId: string }) {
       <Body>
         <div className="mx-auto flex min-h-[70vh] max-w-[1200px] items-center justify-center px-10">
           <p className="text-[#6B5240]">
-            There was an error loading this product.
+            There was an error loading
+            this product.
           </p>
         </div>
       </Body>
@@ -74,19 +103,18 @@ export function Item({ itemId }: { itemId: string }) {
 
           {/* Right */}
           <div className="flex flex-col justify-center">
-            {/* <div className="mb-4 text-[12px] uppercase tracking-[1.2px] text-[#9A7E62]">
-              Featured product
-            </div> */}
-
             <h1 className="mb-4 text-[52px] font-medium leading-[1.1] text-[#3B2A1A]">
               {data.Name}
             </h1>
 
             <div className="mb-6 text-[42px] font-medium text-[#7A5C3F]">
-              ${data.Unit_cost.toFixed(2)}
+              $
+              {data.Unit_cost?.toFixed(
+                2
+              )}
             </div>
 
-            <div className="flex gap-2 mb-4">
+            <div className="mb-4 flex gap-2">
               <button
                 onClick={handleBuy}
                 className="rounded-[10px] bg-[#7A5C3F] px-8 py-4 text-[15px] font-medium text-[#FAF7F2] transition-colors hover:bg-[#5E4530]"
@@ -94,10 +122,16 @@ export function Item({ itemId }: { itemId: string }) {
                 Buy now
               </button>
 
-              <button className="rounded-[10px] border border-[#C4AA8A] bg-transparent px-8 py-4 text-[15px] font-medium text-[#7A5C3F] transition-colors hover:bg-[#EDE4D6]">
+              <button
+                onClick={
+                  handleAddToCart
+                }
+                className="rounded-[10px] border border-[#C4AA8A] bg-transparent px-8 py-4 text-[15px] font-medium text-[#7A5C3F] transition-colors hover:bg-[#EDE4D6]"
+              >
                 Add to cart
               </button>
             </div>
+
             <div className="rounded-2xl border border-[#D9CFC0] bg-white p-6">
               <h3 className="mb-3 text-[18px] font-medium text-[#3B2A1A]">
                 Description

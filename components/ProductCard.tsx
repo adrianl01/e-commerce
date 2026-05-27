@@ -1,10 +1,4 @@
-export interface Product {
-  objectID: string;
-  Name: string;
-  Unit_cost?: number;
-  seller?: string;
-  Images?: { url: string }[];
-}
+import { Product } from "@/lib/hooks/products/useProduct";
 
 export default function ProductCard({ product }: { product: Product }) {
     return (
@@ -36,7 +30,7 @@ export default function ProductCard({ product }: { product: Product }) {
               </div>
 
               <div className="mb-[10px] text-[12px] text-[#9A7E62]">
-                by {product.seller ?? "Unknown seller"}
+                by {product.Vendor ?? "Unknown seller"}
               </div>
 
               <div className="flex items-center justify-between">

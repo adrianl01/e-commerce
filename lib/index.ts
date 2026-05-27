@@ -6,17 +6,17 @@ export interface userData {
   phoneNumber: number;
   address: string;
 }
-export function saveToken(token: string) {
-  if (token) localStorage.setItem('token', JSON.stringify(token));
-}
+// export function saveToken(token: string) {
+//   if (token) localStorage.setItem('token', JSON.stringify(token));
+// }
 
-export function retrieveToken() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token') || '';
-    if (!token) return;
-    return JSON.parse(token);
-  }
-}
+// export function retrieveToken() {
+//   if (typeof window !== 'undefined') {
+//     const token = localStorage.getItem('token') || '';
+//     if (!token) return;
+//     return JSON.parse(token);
+//   }
+// }
 
 export function logout() {
   localStorage.removeItem('token');
@@ -46,10 +46,10 @@ export function getUserDataFromLS() {
   }
 }
 
-export function isUserLogged() {
-  const token = retrieveToken();
-  return !(token == null);
-}
+// export function isUserLogged() {
+//   const token = retrieveToken();
+//   return !(token == null);
+// }
 export function getUsername() {
   return getUserDataFromLS()?.username;
 }

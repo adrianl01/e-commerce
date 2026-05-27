@@ -1,6 +1,6 @@
 "use client";
-import { SearchButton2 } from "@/ui/buttons";
-import { InputBody2 } from "@/ui/inputs";
+import { SearchButton2 } from "@/components/ui/buttons";
+import { InputBody2 } from "@/components/ui/inputs";
 import { useRouter } from "next/navigation";
 
 export function SearchHeaderForm(prop: any) {

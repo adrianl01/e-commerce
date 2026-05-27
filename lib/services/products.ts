@@ -1,6 +1,6 @@
 import { fetchAPI } from "../api";
 
-export async function searchProducts(  query: string,  offset: string, limit: 1 | 3) {
+export async function searchProducts(  query: string,  offset: string, limit: number) {
   const search =
     query === "random"
       ? ""

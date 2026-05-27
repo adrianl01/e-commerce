@@ -27,6 +27,7 @@ export async function verifyCode(
 
   const data = await fetchAPI<{
     token: string;
+    status?: number;
   }>("auth/token", {
     method: "POST",
     body: JSON.stringify({
@@ -35,7 +36,11 @@ export async function verifyCode(
     }),
   });
 
+  if (!data.token) {
+    throw new Error(
+      "Token not found in response"
+    );
+  }
   saveToken(data.token);
-
   return data;
 }

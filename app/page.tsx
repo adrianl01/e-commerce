@@ -2,7 +2,7 @@ import SuggestedProductsSection from '@/components/products/featured/SuggestedPr
 import Footer from '@/components/footer/Footer';
 import Header from '@/components/header';
 import HomeComp from '@/components/home/Home';
-import { Body } from '@/ui/typography/inter';
+import { Body } from '@/components/ui/typography/inter';
 import BrowseRooms from '@/components/BrowseRooms';
 
 export default function Page() {

@@ -35,7 +35,7 @@ export async function fetchAPI<T>(
 
   if (!response.ok) {
     const error =
-      await response.json().catch(() => null);
+      await response.json().catch((e) => console.error("Error parsing error response:", e));
 
     throw {
       status: response.status,

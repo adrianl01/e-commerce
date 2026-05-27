@@ -5,7 +5,7 @@ import { updateAddress, updateProfile } from "@/redux/slices/profileSlice";
 import { useAppDispatch } from "@/redux/store";
 import { EditForm } from "./editUserForm";
 import { UserInfo } from "./userInfo";
-import type { userData } from "@/lib/api";
+import type { userData } from "@/lib";
 
 
 export function Profile() {

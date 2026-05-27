@@ -8,7 +8,7 @@ import { Product } from "./useProduct";
 interface UseProductsParams {
   query: string;
   offset: string;
-  limit: 1 | 3;
+  limit: number;
 }
 
 interface ResProduct {

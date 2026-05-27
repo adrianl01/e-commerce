@@ -1,6 +1,7 @@
 'use client';
 
-import { retrieveToken } from '@/lib';
+import { retrieveToken } from '@/lib/storage';
+import Cart from '../Cart';
 
 // components/Header.tsx
 
@@ -26,20 +27,16 @@ export default function Header() {
 
       {/* Nav links */}
       <div className="flex gap-7">
-        <a href="#" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
-          Furniture
+        <a href="/search?query=living+room" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
+          Living Room
         </a>
 
-        <a href="#" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
-          Lighting
+        <a href="/search?query=office" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
+          Office
         </a>
 
-        <a href="#" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
-          Decor
-        </a>
-
-        <a href="#" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
-          New arrivals
+        <a href="/search?query=bedroom" className="text-[14px] text-[#6B5240] transition-colors hover:text-[#3B2A1A]">
+          Bedroom
         </a>
       </div>
 
@@ -60,6 +57,7 @@ export default function Header() {
             Log in
           </button>
         )}
+      <Cart />
       </div>
     </nav>
   );
