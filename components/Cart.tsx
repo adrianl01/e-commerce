@@ -12,7 +12,7 @@ import {
   buyProduct,
 } from "@/redux/slices/cartSlice";
 
-import { useProductIds} from "@/lib/hooks/products/useProduct";
+import { Product, useProductIds} from "@/lib/hooks/products/useProduct";
 
 export default function Cart() {
   const dispatch = useAppDispatch();
@@ -125,7 +125,7 @@ export default function Cart() {
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {products.map((product: any) => (
+              {products.map((product: Product) => (
                 <div
                   key={product.objectID}
                   className="flex gap-4 rounded-[16px] border border-[#DED3C5] bg-white p-3"
@@ -148,7 +148,7 @@ export default function Cart() {
                       </h3>
 
                       <p className="mt-1 text-[12px] text-[#9A7E62]">
-                        {product.seller ||
+                        {product.Vendor ||
                           "Unknown seller"}
                       </p>
                     </div>

@@ -29,7 +29,7 @@ export default function FeaturedProduct() {
             <div className="flex items-end justify-between">
               <div>
                 <div className="text-[15px] font-medium text-[#3B2A1A]">{data?.data?.results[0]?.Name}</div>
-                <div className="mt-[2px] text-[12px] text-[#9A7E62]">{data?.data?.results[0]?.seller || 'Unknown Seller'}</div>
+                <div className="mt-[2px] text-[12px] text-[#9A7E62]">{data?.data?.results[0]?.Vendor || 'Unknown Seller'}</div>
               </div>
               <div className="text-[18px] font-medium text-[#7A5C3F]">${data?.data?.results[0]?.Unit_cost?.toFixed(2) || '0.00'}</div>
             </div>
